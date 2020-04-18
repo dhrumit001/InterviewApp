@@ -1,17 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using App.Web.Models;
+using App.Services.Logging;
 
 namespace App.Web.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ILogger _logger;
+        public HomeController(ILogger logger)
+        {
+            _logger = logger;
+        }
+
         public IActionResult Index()
         {
+            _logger.Information("Test Message");
             return View();
         }
 

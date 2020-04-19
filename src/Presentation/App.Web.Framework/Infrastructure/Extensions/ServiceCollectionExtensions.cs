@@ -161,7 +161,7 @@ namespace App.Web.Framework.Infrastructure.Extensions
                 //register all available validators from Nop assemblies
                 var assemblies = mvcBuilder.PartManager.ApplicationParts
                     .OfType<AssemblyPart>()
-                    .Where(part => part.Name.StartsWith("Nop", StringComparison.InvariantCultureIgnoreCase))
+                    .Where(part => part.Name.StartsWith("App", StringComparison.InvariantCultureIgnoreCase))
                     .Select(part => part.Assembly);
                 configuration.RegisterValidatorsFromAssemblies(assemblies);
 

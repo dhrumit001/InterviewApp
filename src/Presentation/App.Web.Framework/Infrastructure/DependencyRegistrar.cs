@@ -46,6 +46,8 @@ namespace App.Web.Framework.Infrastructure
             builder.RegisterType<UserService>().As<IUserService>().SingleInstance();
             builder.RegisterType<PermissionService>().As<IPermissionService>().SingleInstance();
             builder.RegisterType<CookieAuthenticationService>().As<IAuthenticationService>().InstancePerLifetimeScope();
+            builder.RegisterType<UserRegistrationService>().As<IUserRegistrationService>().InstancePerLifetimeScope();
+            builder.RegisterType<EncryptionService>().As<IEncryptionService>().InstancePerLifetimeScope();
             builder.RegisterType<DefaultLogger>().As<ILogger>().InstancePerLifetimeScope();
 
             builder.RegisterType<EventPublisher>().As<IEventPublisher>().SingleInstance();

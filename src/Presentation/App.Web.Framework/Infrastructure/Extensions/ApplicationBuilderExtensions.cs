@@ -47,8 +47,13 @@ namespace App.Web.Framework.Infrastructure.Extensions
             application.UseMvc(routes =>
             {
                 routes.MapRoute(
+                    name: "admin",
+                    template: "{area:exists}/{controller=Account}/{action=Login}/{id?}");
+
+                routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
             });
         }
 

@@ -25,7 +25,7 @@ namespace App.Web.Framework
         #region Ctor
 
         public WebWorkContext(IAuthenticationService authenticationService,
-            UserService userService,
+            IUserService userService,
             IHttpContextAccessor httpContextAccessor)
         {
             _authenticationService = authenticationService;

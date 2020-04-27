@@ -7,7 +7,7 @@ namespace App.Data.Mapping.Security
     /// <summary>
     /// Represents a permission record-user role mapping configuration
     /// </summary>
-    public partial class PermissionRecordCustomerRoleMap : AppEntityTypeConfiguration<PermissionRecordUserRoleMapping>
+    public partial class PermissionRecordUserRoleMap : AppEntityTypeConfiguration<PermissionRecordUserRoleMapping>
     {
         #region Methods
 

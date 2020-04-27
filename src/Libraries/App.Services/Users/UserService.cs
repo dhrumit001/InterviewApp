@@ -3,6 +3,7 @@ using App.Core.Data;
 using App.Core.Domain.Users;
 using App.Data;
 using App.Services.Events;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;

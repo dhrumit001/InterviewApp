@@ -8,6 +8,7 @@ using App.Services.Events;
 using App.Services.Logging;
 using App.Services.Security;
 using App.Services.Users;
+using App.Web.Framework.Mvc.Routing;
 using Autofac;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -49,6 +50,7 @@ namespace App.Web.Framework.Infrastructure
             builder.RegisterType<UserRegistrationService>().As<IUserRegistrationService>().InstancePerLifetimeScope();
             builder.RegisterType<EncryptionService>().As<IEncryptionService>().InstancePerLifetimeScope();
             builder.RegisterType<DefaultLogger>().As<ILogger>().InstancePerLifetimeScope();
+            builder.RegisterType<RoutePublisher>().As<IRoutePublisher>().SingleInstance();
 
             builder.RegisterType<EventPublisher>().As<IEventPublisher>().SingleInstance();
 

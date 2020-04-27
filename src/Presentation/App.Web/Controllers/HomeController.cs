@@ -2,10 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using App.Web.Models;
 using App.Services.Logging;
+using App.Web.Areas.Admin.Controllers;
 
 namespace App.Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseAdminController
     {
         private readonly ILogger _logger;
         public HomeController(ILogger logger)

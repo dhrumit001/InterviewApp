@@ -1,6 +1,4 @@
-﻿
-
-using App.Core;
+﻿using App.Core;
 using App.Core.Http;
 using App.Core.Infrastructure;
 using App.Data;
@@ -183,7 +181,8 @@ namespace App.Web.Framework.Infrastructure.Extensions
         {
             services.AddDbContextPool<AppObjectContext>(optionsBuilder =>
             {
-                optionsBuilder.UseSqlServer("Data Source=DESKTOP-6P6RURA;Initial Catalog=IntApp;Integrated Security=False;Persist Security Info=False;User ID=sa;Password=secret");
+                var dbContextOptionsBuilder = optionsBuilder.UseLazyLoadingProxies();
+                dbContextOptionsBuilder.UseSqlServer("Data Source=DESKTOP-6P6RURA;Initial Catalog=IntApp;Integrated Security=False;Persist Security Info=False;User ID=sa;Password=secret");
             });
         }
 

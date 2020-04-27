@@ -23,7 +23,8 @@ namespace App.Data.Mapping.Users
             builder.Property(user => user.Username).HasMaxLength(1000);
             builder.Property(user => user.Email).HasMaxLength(1000);
             builder.Property(user => user.EmailToRevalidate).HasMaxLength(1000);
-            
+
+            builder.Ignore(user => user.UserRoles);
             base.Configure(builder);
         }
 

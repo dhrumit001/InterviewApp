@@ -10,7 +10,7 @@ namespace App.Data.Mapping.Users
     /// <summary>
     /// Represents a user-user role mapping configuration
     /// </summary>
-    public partial class CustomerCustomerRoleMap : AppEntityTypeConfiguration<UserUserRoleMapping>
+    public partial class UserUserRoleMap : AppEntityTypeConfiguration<UserUserRoleMapping>
     {
         #region Methods
 

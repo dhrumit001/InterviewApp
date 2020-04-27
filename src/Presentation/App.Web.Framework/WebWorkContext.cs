@@ -116,7 +116,7 @@ namespace App.Web.Framework
                     }
                 }
 
-                if (!user.Deleted && user.Active && !user.RequireReLogin)
+                if (user != null && !user.Deleted && user.Active && !user.RequireReLogin)
                 {
                     //set user cookie
                     SetUserCookie(user.UserGuid);

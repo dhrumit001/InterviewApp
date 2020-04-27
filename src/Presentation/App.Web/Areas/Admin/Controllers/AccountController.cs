@@ -1,4 +1,5 @@
 ﻿using App.Core.Domain.Users;
+using App.Services.Authentication;
 using App.Services.Users;
 using App.Web.Areas.Admin.Models.Account;
 using Microsoft.AspNetCore.Mvc;
@@ -10,15 +11,18 @@ namespace App.Web.Areas.Admin.Controllers
     {
         #region Fields
         private readonly IUserService _userService;
+        private readonly IAuthenticationService _authenticationService;
         private readonly IUserRegistrationService _userRegistrationService;
         #endregion
 
         #region Ctor
 
         public AccountController(IUserService userService,
+            IAuthenticationService authenticationService,
             IUserRegistrationService userRegistrationService)
         {
             _userService = userService;
+            _authenticationService = authenticationService;
             _userRegistrationService = userRegistrationService;
         }
 
@@ -49,6 +53,9 @@ namespace App.Web.Areas.Admin.Controllers
                     case UserLoginResults.Successful:
                         {
                             var customer = _userService.GetUserByUsername(model.Email);
+
+                            //sign in new customer
+                            _authenticationService.SignIn(customer, model.RememberMe);
 
                             //raise event       
                             //_eventPublisher.Publish(new CustomerLoggedinEvent(customer));

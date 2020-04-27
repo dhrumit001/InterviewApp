@@ -1,4 +1,6 @@
 ﻿using App.Core.Infrastructure;
+using App.Web.Framework.Mvc.Routing;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 
 namespace App.Web.Framework.Infrastructure.Extensions
@@ -28,6 +30,15 @@ namespace App.Web.Framework.Infrastructure.Extensions
             application.UseDeveloperExceptionPage();
         }
 
+        /// <summary>
+        /// Adds the authentication middleware, which enables authentication capabilities.
+        /// </summary>
+        /// <param name="application">Builder for configuring an application's request pipeline</param>
+        public static void UseAppAuthentication(this IApplicationBuilder application)
+        {
+            application.UseMiddleware<AuthenticationMiddleware>();
+        }
+
 
         /// <summary>
         /// Configure static file serving
@@ -44,16 +55,11 @@ namespace App.Web.Framework.Infrastructure.Extensions
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public static void UseAppMvc(this IApplicationBuilder application)
         {
-            application.UseMvc(routes =>
+            //register all routes
+            application.UseMvc(routeBuilder =>
             {
-                routes.MapRoute(
-                    name: "admin",
-                    template: "{area:exists}/{controller=Account}/{action=Login}/{id?}");
-
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-
+                //register all routes
+                EngineContext.Current.Resolve<IRoutePublisher>().RegisterRoutes(routeBuilder);
             });
         }
 

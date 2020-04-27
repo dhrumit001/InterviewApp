@@ -33,7 +33,7 @@ namespace App.Core.Domain.Logging
         /// <summary>
         /// Gets or sets the user identifier
         /// </summary>
-        public int? CustomerId { get; set; }
+        public int? UserId { get; set; }
 
         /// <summary>
         /// Gets or sets the page URL

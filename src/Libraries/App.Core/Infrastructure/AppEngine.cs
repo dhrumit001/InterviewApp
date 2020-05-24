@@ -1,6 +1,8 @@
 ﻿using App.Core.Infrastructure.DependencyManagement;
+using App.Core.Infrastructure.Mapper;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -76,6 +78,34 @@ namespace App.Core.Infrastructure
             return _serviceProvider;
         }
 
+        /// <summary>
+        /// Register and configure AutoMapper
+        /// </summary>
+        /// <param name="services">Collection of service descriptors</param>
+        /// <param name="typeFinder">Type finder</param>
+        protected virtual void AddAutoMapper(IServiceCollection services, ITypeFinder typeFinder)
+        {
+            //find mapper configurations provided by other assemblies
+            var mapperConfigurations = typeFinder.FindClassesOfType<IOrderedMapperProfile>();
+
+            //create and sort instances of mapper configurations
+            var instances = mapperConfigurations
+                .Select(mapperConfiguration => (IOrderedMapperProfile)Activator.CreateInstance(mapperConfiguration))
+                .OrderBy(mapperConfiguration => mapperConfiguration.Order);
+
+            //create AutoMapper configuration
+            var config = new MapperConfiguration(cfg =>
+            {
+                foreach (var instance in instances)
+                {
+                    cfg.AddProfile(instance.GetType());
+                }
+            });
+
+            //register
+            AutoMapperConfiguration.Init(config);
+        }
+
         private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
             //check for assembly already loaded
@@ -114,6 +144,9 @@ namespace App.Core.Infrastructure
             //configure services
             foreach (var instance in instances)
                 instance.ConfigureServices(services, configuration);
+
+            //register mapper configurations
+            AddAutoMapper(services, typeFinder);
 
             //register dependencies
             RegisterDependencies(services, typeFinder);

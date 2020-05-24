@@ -17,9 +17,9 @@ namespace App.Web.Areas.Admin.Models.Logging
 
         public string IpAddress { get; set; }
 
-        public int? CustomerId { get; set; }
+        public int? UserId { get; set; }
 
-        public string CustomerEmail { get; set; }
+        public string UserEmail { get; set; }
 
         public string PageUrl { get; set; }
 

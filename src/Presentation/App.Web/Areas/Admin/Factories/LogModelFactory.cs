@@ -91,7 +91,7 @@ namespace App.Web.Areas.Admin.Factories
                     logModel.LogLevel = logItem.LogLevel.ToString();
                     logModel.ShortMessage = logItem.ShortMessage;
                     logModel.FullMessage = string.Empty;
-                    logModel.CustomerEmail = logItem.User?.Email ?? string.Empty;
+                    logModel.UserEmail = logItem.User?.Email ?? string.Empty;
 
                     return logModel;
                 });
@@ -120,7 +120,7 @@ namespace App.Web.Areas.Admin.Factories
                     model.ShortMessage = log.ShortMessage.ToString();
                     model.FullMessage = log.FullMessage.ToString();
                     model.CreatedOn = log.CreatedOnUtc;
-                    model.CustomerEmail = log.User?.Email ?? string.Empty;
+                    model.UserEmail = log.User?.Email ?? string.Empty;
                 }
             }
             return model;

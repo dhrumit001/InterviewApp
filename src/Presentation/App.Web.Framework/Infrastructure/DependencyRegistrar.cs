@@ -6,6 +6,7 @@ using App.Data;
 using App.Services.Authentication;
 using App.Services.Events;
 using App.Services.Logging;
+using App.Services.Messages;
 using App.Services.Security;
 using App.Services.Users;
 using App.Web.Framework.Mvc.Routing;
@@ -49,6 +50,7 @@ namespace App.Web.Framework.Infrastructure
             builder.RegisterType<CookieAuthenticationService>().As<IAuthenticationService>().InstancePerLifetimeScope();
             builder.RegisterType<UserRegistrationService>().As<IUserRegistrationService>().InstancePerLifetimeScope();
             builder.RegisterType<EncryptionService>().As<IEncryptionService>().InstancePerLifetimeScope();
+            builder.RegisterType<NotificationService>().As<INotificationService>().InstancePerLifetimeScope();
             builder.RegisterType<DefaultLogger>().As<ILogger>().InstancePerLifetimeScope();
             builder.RegisterType<RoutePublisher>().As<IRoutePublisher>().SingleInstance();
 

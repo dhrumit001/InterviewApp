@@ -1,31 +1,24 @@
-﻿<nav class="mt-2">
-    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-
-        <li class="nav-item">
-            <a href="/Admin/Home/Index" class="nav-link">
-                <i class="nav-icon fas fa-th"></i>
-                <p>
-                    Dashboard
-                </p>
-            </a>
-        </li>
-
-        <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
-                <p>
-                    System
-                    <i class="right fas fa-angle-left"></i>
-                </p>
-            </a>
-            <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="/Admin/Log/Index" class="nav-link active">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Log</p>
-                    </a>
-                </li>
-            </ul>
-        </li>
-    </ul>
-</nav>
+﻿<ul class="sidebar-menu" data-widget="tree">
+    <li class="header">MAIN NAVIGATION</li>
+    <li>
+        <a href="/Admin" class="menu-item-link">
+            <i class="fa fa-desktop"></i>
+            <span class="menu-item-title">Dashboard</span>
+        </a>
+    </li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-cube"></i>
+            <span>System</span>
+            <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+            <li>
+                <a href="/Admin/Log/List" class="menu-item-link">
+                    <i class="fa fa-dot-circle-o"></i>
+                    <span class="menu-item-title">Log</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+</ul>

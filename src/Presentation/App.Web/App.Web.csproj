@@ -20,4 +20,9 @@
     <ProjectReference Include="..\App.Web.Framework\App.Web.Framework.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\kendo\2014.1.318\" />
+  </ItemGroup>
+
 </Project>

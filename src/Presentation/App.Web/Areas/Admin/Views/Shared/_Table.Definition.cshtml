@@ -2,7 +2,6 @@
 @using App.Web.Framework.Models.DataTables
 @using System.Text.Encodings.Web
 @model DataTablesModel
-@using System.Net;
 
 @{
     //the locale which MomentJS should use - the default is en (English).
@@ -149,16 +148,16 @@ info: @Model.Info.ToString().ToLower(),
 paging: @Model.Paging.ToString().ToLower(),
 pagingType: '@Model.PagingType',
 language: {
-    "emptyTable":     "@JavaScriptEncoder.Default.Encode("EmptyTable")",
-    "info":           "@JavaScriptEncoder.Default.Encode("Info")",
-    "infoEmpty":      "@JavaScriptEncoder.Default.Encode("InfoEmpty")",
-    "infoFiltered":   "@JavaScriptEncoder.Default.Encode("InfoFiltered")",
-    "thousands":      "@JavaScriptEncoder.Default.Encode("Thousands")",
-    "lengthMenu":     "@JavaScriptEncoder.Default.Encode("LengthMenu")",
-    "loadingRecords": "@JavaScriptEncoder.Default.Encode("LoadingRecords")",
-    "processing":     "@JavaScriptEncoder.Default.Encode("LoaderIcon")",
-    "search":         "@JavaScriptEncoder.Default.Encode("Search")",
-    "zeroRecords":    "@JavaScriptEncoder.Default.Encode("ZeroRecords")",
+    "emptyTable":     "No data available in table",
+    "info":           "_START_-_END_ of _TOTAL_ items",
+    "infoEmpty":      "No records",
+    "infoFiltered":   "(filtered from _MAX_ total entries)",
+    "thousands":      ",",
+    "lengthMenu":     "Show _MENU_ items",
+    "loadingRecords": "Loading...",
+    "processing":     "<i class='fa fa-refresh fa-spin'></i>",
+    "search":         "Search",
+    "zeroRecords":    "No matching records found",
     "paginate": {
     "first":"<i class='k-icon k-i-seek-w'></i>",
     "last":"<i class='k-icon k-i-seek-e'></i>",

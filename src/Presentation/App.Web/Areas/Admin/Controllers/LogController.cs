@@ -1,7 +1,9 @@
 ﻿using App.Services.Logging;
+using App.Services.Messages;
 using App.Services.Security;
 using App.Web.Areas.Admin.Factories;
 using App.Web.Areas.Admin.Models.Logging;
+using App.Web.Framework.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +17,7 @@ namespace App.Web.Areas.Admin.Controllers
         private readonly ILogger _logger;
         private readonly ILogModelFactory _logModelFactory;
         private readonly IPermissionService _permissionService;
+        private readonly INotificationService _notificationService;
 
         #endregion
 
@@ -22,11 +25,13 @@ namespace App.Web.Areas.Admin.Controllers
 
         public LogController(ILogger logger,
             ILogModelFactory logModelFactory,
-            IPermissionService permissionService)
+            IPermissionService permissionService,
+            INotificationService notificationService)
         {
             _logger = logger;
             _logModelFactory = logModelFactory;
             _permissionService = permissionService;
+            _notificationService = notificationService;
         }
 
         #endregion
@@ -52,8 +57,8 @@ namespace App.Web.Areas.Admin.Controllers
         [HttpPost]
         public virtual IActionResult LogList(LogSearchModel searchModel)
         {
-            //if (!_permissionService.Authorize(StandardPermission.ManageSystemLog))
-            //    return AccessDeniedDataTablesJson();
+            if (!_permissionService.Authorize(StandardPermission.ManageSystemLog))
+                return AccessDeniedDataTablesJson();
 
             //prepare model
             var model = _logModelFactory.PrepareLogListModel(searchModel);
@@ -62,6 +67,7 @@ namespace App.Web.Areas.Admin.Controllers
         }
 
         [HttpPost, ActionName("List")]
+        [FormValueRequired("clearall")]
         public virtual IActionResult ClearAll()
         {
             if (!_permissionService.Authorize(StandardPermission.ManageSystemLog))
@@ -69,10 +75,7 @@ namespace App.Web.Areas.Admin.Controllers
 
             _logger.ClearLog();
 
-            //activity log
-            //_customerActivityService.InsertActivity("DeleteSystemLog", _localizationService.GetResource("ActivityLog.DeleteSystemLog"));
-
-            //_notificationService.SuccessNotification(_localizationService.GetResource("Admin.System.Log.Cleared"));
+            _notificationService.SuccessNotification("The log entry has been deleted successfully.");
 
             return RedirectToAction("List");
         }
@@ -106,10 +109,7 @@ namespace App.Web.Areas.Admin.Controllers
 
             _logger.DeleteLog(log);
 
-            //activity log
-            //_customerActivityService.InsertActivity("DeleteSystemLog", _localizationService.GetResource("ActivityLog.DeleteSystemLog"), log);
-
-            //_notificationService.SuccessNotification(_localizationService.GetResource("Admin.System.Log.Deleted"));
+            _notificationService.SuccessNotification("The log entry has been deleted successfully.");
 
             return RedirectToAction("List");
         }
@@ -122,9 +122,6 @@ namespace App.Web.Areas.Admin.Controllers
 
             if (selectedIds != null)
                 _logger.DeleteLogs(_logger.GetLogByIds(selectedIds.ToArray()).ToList());
-
-            //activity log
-            //_customerActivityService.InsertActivity("DeleteSystemLog", _localizationService.GetResource("ActivityLog.DeleteSystemLog"));
 
             return Json(new { Result = true });
         }

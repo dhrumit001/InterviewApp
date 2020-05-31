@@ -11,100 +11,108 @@
 }
 
 
-<!-- Content Header (Page header) -->
-<section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>DataTables</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">DataTables</li>
-                </ol>
-            </div>
+<form asp-controller="Log" asp-action="List" method="post">
+   
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            Log
+        </h1>
+        <div class="pull-right">
+            <button type="button" id="delete-selected" class="btn bg-red">
+                <i class="fa fa-trash-o"></i>
+                Delete Selected
+            </button>
+            <app-action-confirmation asp-button-id="delete-selected" />
+            <button type="button" id="clearall" name="clearall" class="btn bg-red">
+                <i class="fa fa-trash-o"></i>
+                Clear Log
+            </button>
+            <app-action-confirmation asp-button-id="clearall" />
+            
         </div>
-    </div><!-- /.container-fluid -->
-</section>
+    </div>
 
-<section class="content">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <div class="col-md-4">
-                                    <div class="label-wrapper"><label class="control-label" for="CreatedOnFrom">Created from</label><div title="The creation from date for the search." data-toggle="tooltip" class="ico-help"><i class="fa fa-question-circle"></i></div></div>
-                                </div>
-                                <div class="col-md-8">
-                                    <span class="k-widget k-datepicker k-header" style=""><span class="k-picker-wrap k-state-default"><input id="CreatedOnFrom" name="CreatedOnFrom" data-role="datepicker" type="text" class="k-input" role="combobox" aria-expanded="false" aria-owns="CreatedOnFrom_dateview" aria-disabled="false" aria-readonly="false" style="width: 100%;"><span unselectable="on" class="k-select" role="button" aria-controls="CreatedOnFrom_dateview"><span unselectable="on" class="k-icon k-i-calendar">select</span></span></span></span>
-                                    <script>
-                                        $(document).ready(function () {
-                                            $("#CreatedOnFrom").kendoDatePicker();
-                                        });
-                                    </script>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-4">
-                                    <div class="label-wrapper"><label class="control-label" for="CreatedOnTo">Created to</label><div title="The creation to date for the search." data-toggle="tooltip" class="ico-help"><i class="fa fa-question-circle"></i></div></div>
-                                </div>
-                                <div class="col-md-8">
-                                    <span class="k-widget k-datepicker k-header" style=""><span class="k-picker-wrap k-state-default"><input id="CreatedOnTo" name="CreatedOnTo" data-role="datepicker" type="text" class="k-input" role="combobox" aria-expanded="false" aria-owns="CreatedOnTo_dateview" aria-disabled="false" aria-readonly="false" style="width: 100%;"><span unselectable="on" class="k-select" role="button" aria-controls="CreatedOnTo_dateview"><span unselectable="on" class="k-icon k-i-calendar">select</span></span></span></span>
-                                    <script>
-                                        $(document).ready(function () {
-                                            $("#CreatedOnTo").kendoDatePicker();
-                                        });
-                                    </script>
-                                </div>
-                            </div>
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="panel-group">
+                <div class="panel panel-default panel-search">
+                    <div class="panel-body">
+                        <div class="row search-row opened" data-hideattribute="LogPage.HideSearchBlock">
+                            <div class="search-text">Search</div>
+                            <div class="icon-search"><i class="fa fa-search" aria-hidden="true"></i></div>
+                            <div class="icon-collapse"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
                         </div>
-                        <div class="col-md-7">
-                            <div class="form-group">
-                                <div class="col-md-4">
-                                    <div class="label-wrapper"><label class="control-label" for="Message">Message</label><div title="Message." data-toggle="tooltip" class="ico-help"><i class="fa fa-question-circle"></i></div></div>
+                        <div class="search-body ">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <div class="label-wrapper"><label class="control-label" for="CreatedOnFrom">Created from</label><div title="The creation from date for the search." data-toggle="tooltip" class="ico-help"><i class="fa fa-question-circle"></i></div></div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <span class="k-widget k-datepicker" style=""><span class="k-picker-wrap k-state-default"><input id="CreatedOnFrom" name="CreatedOnFrom" data-role="datepicker" type="text" class="k-input" role="combobox" aria-expanded="false" aria-owns="CreatedOnFrom_dateview" autocomplete="off" aria-disabled="false" style="width: 100%;"><span unselectable="on" class="k-select" aria-label="select" role="button" aria-controls="CreatedOnFrom_dateview"><span class="k-icon k-i-calendar"></span></span></span></span>
+                                            <script>
+                                                $(document).ready(function () {
+                                                    $("#CreatedOnFrom").kendoDatePicker();
+                                                });
+                                            </script>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <div class="label-wrapper"><label class="control-label" for="CreatedOnTo">Created to</label><div title="The creation to date for the search." data-toggle="tooltip" class="ico-help"><i class="fa fa-question-circle"></i></div></div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <span class="k-widget k-datepicker" style=""><span class="k-picker-wrap k-state-default"><input id="CreatedOnTo" name="CreatedOnTo" data-role="datepicker" type="text" class="k-input" role="combobox" aria-expanded="false" aria-owns="CreatedOnTo_dateview" autocomplete="off" aria-disabled="false" style="width: 100%;"><span unselectable="on" class="k-select" aria-label="select" role="button" aria-controls="CreatedOnTo_dateview"><span class="k-icon k-i-calendar"></span></span></span></span>
+                                            <script>
+                                                $(document).ready(function () {
+                                                    $("#CreatedOnTo").kendoDatePicker();
+                                                });
+                                            </script>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-md-8">
-                                    <input class="form-control text-box single-line" id="Message" name="Message" type="text" value="">
+                                <div class="col-md-7">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <div class="label-wrapper"><label class="control-label" for="Message">Message</label><div title="Message." data-toggle="tooltip" class="ico-help"><i class="fa fa-question-circle"></i></div></div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input class="form-control text-box single-line" id="Message" name="Message" type="text" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <div class="label-wrapper"><label class="control-label" for="LogLevelId">Log level</label><div title="Select a log level." data-toggle="tooltip" class="ico-help"><i class="fa fa-question-circle"></i></div></div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <select class="form-control" data-val="true" data-val-required="The Log level field is required." id="LogLevelId" name="LogLevelId">
+                                                <option selected="selected" value="0">All</option>
+                                                <option value="10">Debug</option>
+                                                <option value="20">Information</option>
+                                                <option value="30">Warning</option>
+                                                <option value="40">Error</option>
+                                                <option value="50">Fatal</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <div class="col-md-4">
-                                    <div class="label-wrapper"><label class="control-label" for="LogLevelId">Log level</label><div title="Select a log level." data-toggle="tooltip" class="ico-help"><i class="fa fa-question-circle"></i></div></div>
-                                </div>
-                                <div class="col-md-8">
-                                    <select class="form-control" data-val="true" data-val-required="The Log level field is required." id="LogLevelId" name="LogLevelId">
-                                        <option selected="selected" value="0">All</option>
-                                        <option value="10">Debug</option>
-                                        <option value="20">Information</option>
-                                        <option value="30">Warning</option>
-                                        <option value="40">Error</option>
-                                        <option value="50">Fatal</option>
-                                    </select>
+                            <div class="row">
+                                <div class="col-md-7 col-md-offset-5">
+                                    <button type="button" id="search-log" class="btn btn-primary btn-search">
+                                        <i class="fa fa-search"></i>
+                                        Search
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
-            </div>
-        </div>
-    </div>
-</section>
 
-<section class="content">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">DataTable with default features</h3>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body">
-                    @await Html.PartialAsync("Table", new DataTablesModel
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        @await Html.PartialAsync("Table", new DataTablesModel
                         {
                             Name = "log-grid",
                             UrlRead = new DataUrl("LogList", "Log", null),
@@ -152,12 +160,41 @@
                                 }
                             }
                         })
-                </div>
-                <!-- /.card-body -->
-            </div>
 
+                        <script>
+                            $(document).ready(function() {
+                                //"delete selected" button
+                                $("#delete-selected-action-confirmation-submit-button").bind("click", function () {
+                                    
+                                    var postData = {
+                                        selectedIds: selectedIds
+                                    };
+                                    addAntiForgeryToken(postData);
+                                    $.ajax({
+                                        cache: false,
+                                        type: "POST",
+                                        url: "@(Url.Action("DeleteSelected", "Log"))",
+                                        data: postData,
+                                        traditional: true,
+                                        error: function (jqXHR, textStatus, errorThrown) {
+                                            $('#deleteSelectedFailed-info').text(errorThrown);
+                                            $("#deleteSelectedFailed").click();
+                                        },
+                                        complete: function (jqXHR, textStatus) {
+                                            updateTable('#log-grid');
+                                        }
+                                    });
+                                    
+                                    $('#delete-selected-action-confirmation').modal('toggle');
+                                    return false;
+                                });
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</section>
+</form>
 
 

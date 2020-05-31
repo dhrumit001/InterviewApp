@@ -20,6 +20,15 @@ namespace App.Web.Framework.Controllers
             return RedirectToAction("AccessDenied", "Security", new { area = "admin" });
         }
 
+        /// <summary>
+        /// Access denied JSON data for DataTables
+        /// </summary>
+        /// <returns>Access denied JSON data</returns>
+        protected JsonResult AccessDeniedDataTablesJson()
+        {
+            return ErrorJson("You do not have permission to perform the selected operation.");
+        }
+
         #endregion
 
         #region DataTables
@@ -39,6 +48,36 @@ namespace App.Web.Framework.Controllers
                 recordsTotal = model.RecordsTotal,
                 recordsFiltered = model.RecordsFiltered,
                 data = model.Data,
+            });
+        }
+
+        #endregion
+
+        #region Notifications
+
+        /// <summary>
+        /// Error's JSON data
+        /// </summary>
+        /// <param name="error">Error text</param>
+        /// <returns>Error's JSON data</returns>
+        protected JsonResult ErrorJson(string error)
+        {
+            return Json(new
+            {
+                error = error
+            });
+        }
+
+        /// <summary>
+        /// Error's JSON data
+        /// </summary>
+        /// <param name="errors">Error messages</param>
+        /// <returns>Error's JSON data</returns>
+        protected JsonResult ErrorJson(object errors)
+        {
+            return Json(new
+            {
+                error = errors
             });
         }
 

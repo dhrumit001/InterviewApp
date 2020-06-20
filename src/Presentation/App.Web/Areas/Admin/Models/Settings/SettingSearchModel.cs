@@ -1,0 +1,27 @@
+﻿using App.Web.Framework.Models;
+
+namespace App.Web.Areas.Admin.Models.Settings
+{
+    /// <summary>
+    /// Represents a setting search model
+    /// </summary>
+    public partial class SettingSearchModel : BaseSearchModel
+    {
+        #region Ctor
+
+        public SettingSearchModel()
+        {
+            AddSetting = new SettingModel();
+        }
+
+        #endregion
+
+        #region Properties
+
+        public string SearchSettingName { get; set; }
+        public string SearchSettingValue { get; set; }
+        public SettingModel AddSetting { get; set; }
+
+        #endregion
+    }
+}

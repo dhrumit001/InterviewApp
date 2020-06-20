@@ -6,7 +6,7 @@ using App.Web.Areas.Admin.Controllers;
 
 namespace App.Web.Controllers
 {
-    public class HomeController : BaseAdminController
+    public class HomeController : Controller
     {
         private readonly ILogger _logger;
         public HomeController(ILogger logger)

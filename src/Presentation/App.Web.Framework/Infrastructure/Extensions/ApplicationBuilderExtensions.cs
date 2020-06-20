@@ -1,6 +1,6 @@
 ﻿using App.Core.Infrastructure;
+using App.Services.Authentication;
 using App.Web.Framework.Mvc.Routing;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 
 namespace App.Web.Framework.Infrastructure.Extensions

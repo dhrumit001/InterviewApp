@@ -1,4 +1,7 @@
-﻿namespace App.Web.Framework.Models
+﻿using App.Core.Domain.Common;
+using App.Core.Infrastructure;
+
+namespace App.Web.Framework.Models
 {
     /// <summary>
     /// Represents base search model
@@ -50,6 +53,15 @@
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Set grid page parameters
+        /// </summary>
+        public void SetGridPageSize()
+        {
+            var adminAreaSettings = EngineContext.Current.Resolve<AdminAreaSettings>();
+            SetGridPageSize(adminAreaSettings.DefaultGridPageSize, adminAreaSettings.GridPageSizes);
+        }
 
         /// <summary>
         /// Set grid page parameters

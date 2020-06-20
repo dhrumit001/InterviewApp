@@ -22,6 +22,9 @@ namespace App.Web.Framework.Infrastructure
             //add options feature
             services.AddOptions();
 
+            //add Easy caching
+            services.AddEasyCaching();
+
             //add distributed memory cache
             services.AddDistributedMemoryCache();
 

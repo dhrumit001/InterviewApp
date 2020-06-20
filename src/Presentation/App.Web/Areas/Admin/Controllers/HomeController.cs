@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace App.Web.Areas.Admin.Controllers
 {
-    public class HomeController : Controller
+    [Area("Admin")]
+    public class HomeController : BaseAdminController
     {
 
         private IUserService _userService;

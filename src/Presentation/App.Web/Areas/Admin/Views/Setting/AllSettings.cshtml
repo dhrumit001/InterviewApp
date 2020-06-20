@@ -1,0 +1,186 @@
+﻿@using App.Web.Framework.Models.DataTables
+@model SettingSearchModel
+
+@{
+    //page title
+    ViewBag.Title = "All settings (advanced)";
+    Layout = "/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<nop-antiforgery-token />
+<div class="content-header clearfix">
+    <h1 class="pull-left">
+        All settings (advanced)
+    </h1>
+
+</div>
+
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+
+            <div class="panel panel-default panel-search">
+                <div class="panel-body">
+                    <div class="row search-row opened">
+                        <div class="search-text">Search</div>
+                        <div class="icon-search"><i class="fa fa-search" aria-hidden="true"></i></div>
+                        <div class="icon-collapse"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                    </div>
+
+                    <div class="search-body">
+
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div class="label-wrapper"><label class="control-label" for="Message">Name</label><div title="Message." data-toggle="tooltip" class="ico-help"><i class="fa fa-question-circle"></i></div></div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input class="form-control text-box single-line" id="SearchSettingName" name="SearchSettingName" type="text" value="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div class="label-wrapper"><label class="control-label" for="Message">Value</label><div title="Message." data-toggle="tooltip" class="ico-help"><i class="fa fa-question-circle"></i></div></div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input class="form-control text-box single-line" id="SearchSettingValue" name="SearchSettingValue" type="text" value="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-7 col-md-offset-5">
+                                <button type="button" id="search-settings" class="btn btn-primary btn-search">
+                                    <i class="fa fa-search"></i>
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    @await Html.PartialAsync("Table", new DataTablesModel
+                    {
+                        Name = "settings-grid",
+                        UrlRead = new DataUrl("AllSettings", "Setting", null),
+                        UrlUpdate = new DataUrl("SettingUpdate", "Setting", null),
+                        UrlDelete = new DataUrl("SettingDelete", "Setting", null),
+                        SearchButtonId = "search-settings",
+                        Length = Model.PageSize,
+                        LengthMenu = Model.AvailablePageSizes,
+                        Filters = new List<FilterParameter>
+                        {
+                            new FilterParameter(nameof(Model.SearchSettingName)),
+                            new FilterParameter(nameof(Model.SearchSettingValue))
+                        },
+                        ColumnCollection = new List<ColumnProperty>
+                        {
+                            new ColumnProperty(nameof(SettingModel.Name))
+                            {
+                                Title = "Name",
+                                Width = "300",
+                                Editable = true,
+                                EditType = EditType.String
+                            },
+                            new ColumnProperty(nameof(SettingModel.Value))
+                            {
+                                Title = "Value",
+                                Width = "300",
+                                Editable = true,
+                                EditType = EditType.String
+                            },
+                            new ColumnProperty(nameof(SettingModel.Id))
+                            {
+                                Title = "Edit",
+                                Width = "200",
+                                ClassName =  NopColumnClassDefaults.Button,
+                                Render = new RenderButtonsInlineEdit()
+                            },
+                            new ColumnProperty(nameof(SettingModel.Id))
+                            {
+                                Title = "Delete",
+                                Width = "100",
+                                ClassName =  NopColumnClassDefaults.Button,
+                                Render = new RenderButtonRemove("Delete")
+                            }
+                        }
+                    })
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Add new record
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="@Model.AddSetting.Name" />
+                                <div class="label-wrapper"><label class="control-label" for="Message">Setting name	</label><div title="Message." data-toggle="tooltip" class="ico-help"><i class="fa fa-question-circle"></i></div></div>
+                            </div>
+                            <div class="col-md-9">
+                                <input class="form-control text-box single-line" asp-for="@Model.AddSetting.Name">
+                                <span asp-validation-for="@Model.AddSetting.Name"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <div class="label-wrapper"><label class="control-label" for="Message">Value</label><div title="Message." data-toggle="tooltip" class="ico-help"><i class="fa fa-question-circle"></i></div></div>
+                                <nop-label asp-for="@Model.AddSetting.Value" />
+                            </div>
+                            <div class="col-md-9">
+                                <input class="form-control text-box single-line" asp-for="@Model.AddSetting.Value">
+                                <span asp-validation-for="@Model.AddSetting.Value"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-9 col-md-offset-3">
+                                <button type="button" id="addSetting" class="btn btn-primary">Add new record</button>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        $(document).ready(function () {
+                            $('#addSetting').click(function () {
+                                $('#addSetting').attr('disabled', true);
+                                var postData = {
+                                    Name: $("#@Html.IdFor(model => model.AddSetting.Name)").val(),
+                                    Value: $("#@Html.IdFor(model => model.AddSetting.Value)").val()
+                                };
+                                addAntiForgeryToken(postData);
+                                console.log("#@Html.IdFor(model => model.AddSetting.Name)")
+                                debugger
+                                $.ajax({
+                                    cache: false,
+                                    type: "POST",
+                                    url: "@Html.Raw(Url.Action("SettingAdd", "Setting", null))",
+                                    data: postData,
+                                    success: function (data, textStatus, jqXHR) {
+                                        if (data.Result) {
+                                            //reload grid
+                                            updateTable('#settings-grid');
+
+                                            //clear input value
+                                            $("#@Html.IdFor(model => model.AddSetting.Name)").val('');
+                                            $("#@Html.IdFor(model => model.AddSetting.Value)").val('');
+                                        } else {
+                                            //display errors if returned
+                                            display_nop_error(data);
+                                        }
+                                    },
+                                    complete: function (jqXHR, textStatus) {
+                                        $('#addSetting').attr('disabled', false);
+                                    }
+                                });
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

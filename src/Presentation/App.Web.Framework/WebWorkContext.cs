@@ -92,29 +92,7 @@ namespace App.Web.Framework
                 if (_cachedUser != null)
                     return _cachedUser;
 
-                User user = null;
-
-                if (user == null || user.Deleted || !user.Active || user.RequireReLogin)
-                {
-                    //try to get registered user
-                    user = _authenticationService.GetAuthenticatedUser();
-                }
-
-                if (user == null || user.Deleted || !user.Active || user.RequireReLogin)
-                {
-                    //get guest user
-                    var customerCookie = GetCustomerCookie();
-                    if (!string.IsNullOrEmpty(customerCookie))
-                    {
-                        if (Guid.TryParse(customerCookie, out Guid customerGuid))
-                        {
-                            //get user from cookie (should not be registered)
-                            var userByCookie = _userService.GetUserByGuid(customerGuid);
-                            if (userByCookie != null)
-                                user = userByCookie;
-                        }
-                    }
-                }
+                User user = _authenticationService.GetAuthenticatedUser(); ;
 
                 if (user != null && !user.Deleted && user.Active && !user.RequireReLogin)
                 {

@@ -90,6 +90,14 @@ namespace App.Web.Areas.Admin.Controllers
             return View(model);
         }
 
+        public virtual IActionResult Logout()
+        {
+            //standard logout 
+            _authenticationService.SignOut();
+
+            return RedirectToAction("Index", "Home");
+        }
+
         #endregion
 
         #endregion

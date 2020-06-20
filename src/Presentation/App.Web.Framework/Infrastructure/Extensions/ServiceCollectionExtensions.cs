@@ -1,8 +1,11 @@
 ﻿using App.Core;
+using App.Core.Configuration;
 using App.Core.Http;
 using App.Core.Infrastructure;
 using App.Data;
 using App.Services.Authentication;
+using EasyCaching.Core;
+using EasyCaching.InMemory;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -35,6 +38,9 @@ namespace App.Web.Framework.Infrastructure.Extensions
         {
             //most of API providers require TLS 1.2 nowadays
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+            //add hosting configuration parameters
+            services.ConfigureStartupConfig<HostingConfig>(configuration.GetSection("Hosting"));
 
             //add accessor to HttpContext
             services.AddHttpContextAccessor();
@@ -171,6 +177,19 @@ namespace App.Web.Framework.Infrastructure.Extensions
             mvcBuilder.AddControllersAsServices();
 
             return mvcBuilder;
+        }
+
+        /// <summary>
+        /// Add and configure EasyCaching service
+        /// </summary>
+        /// <param name="services">Collection of service descriptors</param>
+        public static void AddEasyCaching(this IServiceCollection services)
+        {
+            services.AddEasyCaching(option =>
+            {
+                //use memory cache
+                option.UseInMemory("app_memory_cache");
+            });
         }
 
         /// <summary>

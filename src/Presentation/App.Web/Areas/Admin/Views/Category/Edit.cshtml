@@ -2,9 +2,9 @@
 @{
     //page title
     ViewBag.Title = "Edit category details";
+
     //active menu item (system name)
-    //Html.SetActiveMenuItemSystemName("Categories");
-    Layout = "/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    Html.SetActiveMenuItemSystemName("Categories");
 }
 
 <form asp-controller="Category" asp-action="Edit" method="post" id="category-form">

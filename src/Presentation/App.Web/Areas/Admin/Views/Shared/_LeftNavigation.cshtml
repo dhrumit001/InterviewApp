@@ -1,54 +1,21 @@
-﻿<ul class="sidebar-menu" data-widget="tree">
-    <li class="header">MAIN NAVIGATION</li>
-    <li>
-        <a href="/Admin" class="menu-item-link">
-            <i class="fa fa-desktop"></i>
-            <span class="menu-item-title">Dashboard</span>
-        </a>
-    </li>
-    <li class="treeview">
-        <a href="#">
-            <i class="fa fa-book"></i>
-            <span>Categorize</span>
-            <i class="fa fa-angle-left pull-right"></i>
-        </a>
-        <ul class="treeview-menu">
-            <li>
-                <a href="/Admin/Category/List" class="menu-item-link">
-                    <i class="fa fa-dot-circle-o"></i>
-                    <span class="menu-item-title">Category</span>
-                </a>
-            </li>
-        </ul>
-    </li>
-    <li class="treeview">
-        <a href="#">
-            <i class="fa fa-gears"></i>
-            <span>Settings</span>
-            <i class="fa fa-angle-left pull-right"></i>
-        </a>
-        <ul class="treeview-menu">
-            <li>
-                <a href="/Admin/Setting/AllSettings" class="menu-item-link">
-                    <i class="fa fa-dot-circle-o"></i>
-                    <span class="menu-item-title">All settings (advanced)</span>
-                </a>
-            </li>
-        </ul>
-    </li>
-    <li class="treeview">
-        <a href="#">
-            <i class="fa fa-cube"></i>
-            <span>System</span>
-            <i class="fa fa-angle-left pull-right"></i>
-        </a>
-        <ul class="treeview-menu">
-            <li>
-                <a href="/Admin/Log/List" class="menu-item-link">
-                    <i class="fa fa-dot-circle-o"></i>
-                    <span class="menu-item-title">Log</span>
-                </a>
-            </li>
-        </ul>
-    </li>
+﻿@using App.Services.Security
+@using App.Web.Framework.Menu
+@inject IPermissionService permissionService
+@inject IWorkContext workContext
+
+<ul class="sidebar-menu" data-widget="tree">
+    @{
+        //load sitemap
+        var siteMap = new XmlSiteMap();
+        siteMap.LoadFrom("~/Areas/Admin/sitemap.config");
+
+        //standard (default) items
+        var rootNode = siteMap.RootNode;
+
+        //display menu items
+        foreach (var item in rootNode.ChildNodes.Where(x => x.Visible))
+        {
+            @await Html.PartialAsync("_MenuItem", item)
+        }
+    }
 </ul>

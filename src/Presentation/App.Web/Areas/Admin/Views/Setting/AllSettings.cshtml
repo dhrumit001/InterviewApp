@@ -4,7 +4,9 @@
 @{
     //page title
     ViewBag.Title = "All settings (advanced)";
-    Layout = "/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("All settings");
 }
 
 <nop-antiforgery-token />

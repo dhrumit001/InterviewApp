@@ -37,63 +37,48 @@
             <div class="panel-group">
                 <div class="panel panel-default panel-search">
                     <div class="panel-body">
-                        <div class="row search-row opened" data-hideattribute="LogPage.HideSearchBlock">
+                        <div class="row search-row">
                             <div class="search-text">Search</div>
                             <div class="icon-search"><i class="fa fa-search" aria-hidden="true"></i></div>
                             <div class="icon-collapse"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
                         </div>
-                        <div class="search-body ">
+
+                        <div class="search-body">
+
                             <div class="row">
                                 <div class="col-md-5">
                                     <div class="form-group">
                                         <div class="col-md-4">
-                                            <div class="label-wrapper"><label class="control-label" for="CreatedOnFrom">Created from</label><div title="The creation from date for the search." data-toggle="tooltip" class="ico-help"><i class="fa fa-question-circle"></i></div></div>
+                                            <app-label asp-for="CreatedOnFrom" />
                                         </div>
                                         <div class="col-md-8">
-                                            <span class="k-widget k-datepicker" style=""><span class="k-picker-wrap k-state-default"><input id="CreatedOnFrom" name="CreatedOnFrom" data-role="datepicker" type="text" class="k-input" role="combobox" aria-expanded="false" aria-owns="CreatedOnFrom_dateview" autocomplete="off" aria-disabled="false" style="width: 100%;"><span unselectable="on" class="k-select" aria-label="select" role="button" aria-controls="CreatedOnFrom_dateview"><span class="k-icon k-i-calendar"></span></span></span></span>
-                                            <script>
-                                                $(document).ready(function () {
-                                                    $("#CreatedOnFrom").kendoDatePicker();
-                                                });
-                                            </script>
+                                            <app-editor asp-for="CreatedOnFrom" />
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-md-4">
-                                            <div class="label-wrapper"><label class="control-label" for="CreatedOnTo">Created to</label><div title="The creation to date for the search." data-toggle="tooltip" class="ico-help"><i class="fa fa-question-circle"></i></div></div>
+                                            <app-label asp-for="CreatedOnTo" />
                                         </div>
                                         <div class="col-md-8">
-                                            <span class="k-widget k-datepicker" style=""><span class="k-picker-wrap k-state-default"><input id="CreatedOnTo" name="CreatedOnTo" data-role="datepicker" type="text" class="k-input" role="combobox" aria-expanded="false" aria-owns="CreatedOnTo_dateview" autocomplete="off" aria-disabled="false" style="width: 100%;"><span unselectable="on" class="k-select" aria-label="select" role="button" aria-controls="CreatedOnTo_dateview"><span class="k-icon k-i-calendar"></span></span></span></span>
-                                            <script>
-                                                $(document).ready(function () {
-                                                    $("#CreatedOnTo").kendoDatePicker();
-                                                });
-                                            </script>
+                                            <app-editor asp-for="CreatedOnTo" />
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-7">
                                     <div class="form-group">
                                         <div class="col-md-4">
-                                            <div class="label-wrapper"><label class="control-label" for="Message">Message</label><div title="Message." data-toggle="tooltip" class="ico-help"><i class="fa fa-question-circle"></i></div></div>
+                                            <app-label asp-for="Message" />
                                         </div>
                                         <div class="col-md-8">
-                                            <input class="form-control text-box single-line" id="Message" name="Message" type="text" value="">
+                                            <app-editor asp-for="Message" />
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-md-4">
-                                            <div class="label-wrapper"><label class="control-label" for="LogLevelId">Log level</label><div title="Select a log level." data-toggle="tooltip" class="ico-help"><i class="fa fa-question-circle"></i></div></div>
+                                            <app-label asp-for="LogLevelId" />
                                         </div>
                                         <div class="col-md-8">
-                                            <select class="form-control" data-val="true" data-val-required="The Log level field is required." id="LogLevelId" name="LogLevelId">
-                                                <option selected="selected" value="0">All</option>
-                                                <option value="10">Debug</option>
-                                                <option value="20">Information</option>
-                                                <option value="30">Warning</option>
-                                                <option value="40">Error</option>
-                                                <option value="50">Fatal</option>
-                                            </select>
+                                            <app-select asp-for="LogLevelId" asp-items="Model.AvailableLogLevels" />
                                         </div>
                                     </div>
                                 </div>
@@ -137,17 +122,17 @@
                                 },
                                 new ColumnProperty(nameof(LogModel.LogLevel))
                                 {
-                                    Title = "LogLevel",
+                                    Title = "Log level",
                                     Width = "100"
                                 },
                                 new ColumnProperty(nameof(LogModel.ShortMessage))
                                 {
-                                    Title = "ShortMessage",
+                                    Title = "Short message",
                                     Encode = false
                                 },
                                 new ColumnProperty(nameof(LogModel.CreatedOn))
                                 {
-                                    Title = "CreatedOn",
+                                    Title = "Created on",
                                     Width = "200",
                                     Render = new RenderDate()
                                 },

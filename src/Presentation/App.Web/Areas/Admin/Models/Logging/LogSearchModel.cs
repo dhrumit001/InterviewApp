@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace App.Web.Areas.Admin.Models.Logging
 {
@@ -21,12 +23,18 @@ namespace App.Web.Areas.Admin.Models.Logging
 
         #region Properties
 
+        [DisplayName("Created from")]
+        [UIHint("DateNullable")]
         public DateTime? CreatedOnFrom { get; set; }
 
+        [DisplayName("Created to")]
+        [UIHint("DateNullable")]
         public DateTime? CreatedOnTo { get; set; }
 
+        [DisplayName("Message")]
         public string Message { get; set; }
 
+        [DisplayName("Log level")]
         public int LogLevelId { get; set; }
 
         public IList<SelectListItem> AvailableLogLevels { get; set; }

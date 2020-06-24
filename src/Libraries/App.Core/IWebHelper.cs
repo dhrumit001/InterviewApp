@@ -30,6 +30,20 @@ namespace App.Core
         string GetThisPageUrl(bool includeQueryString, bool lowercaseUrl = false);
 
         /// <summary>
+        /// Gets store host location
+        /// </summary>
+        /// <param name="useSsl">Whether to get SSL secured URL</param>
+        /// <returns>Store host location</returns>
+        string GetSiteHost();
+
+        /// <summary>
+        /// Gets store location
+        /// </summary>
+        /// <param name="useSsl">Whether to get SSL secured URL; pass null to determine automatically</param>
+        /// <returns>Store location</returns>
+        string GetSiteLocation(bool? useSsl = null);
+
+        /// <summary>
         /// Returns true if the requested resource is one of the typical resources that needn't be processed by the CMS engine.
         /// </summary>
         /// <returns>True if the request targets a static resource file.</returns>

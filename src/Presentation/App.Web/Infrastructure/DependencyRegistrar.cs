@@ -21,6 +21,8 @@ namespace App.Web.Infrastructure
             //admin factories
             builder.RegisterType<LogModelFactory>().As<ILogModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<SettingModelFactory>().As<ISettingModelFactory>().InstancePerLifetimeScope();
+            builder.RegisterType<BaseAdminModelFactory>().As<IBaseAdminModelFactory>().InstancePerLifetimeScope();
+            builder.RegisterType<CategoryModelFactory>().As<ICategoryModelFactory>().InstancePerLifetimeScope();
         }
     }
 }

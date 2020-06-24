@@ -10,10 +10,12 @@ using App.Services.Categorize;
 using App.Services.Configuration;
 using App.Services.Events;
 using App.Services.Logging;
+using App.Services.Media;
 using App.Services.Messages;
 using App.Services.Security;
 using App.Services.Users;
 using App.Web.Framework.Mvc.Routing;
+using App.Web.Framework.UI;
 using Autofac;
 using Autofac.Builder;
 using Autofac.Core;
@@ -72,8 +74,10 @@ namespace App.Web.Framework.Infrastructure
             builder.RegisterType<NotificationService>().As<INotificationService>().InstancePerLifetimeScope();
             builder.RegisterType<CategoryService>().As<ICategoryService>().InstancePerLifetimeScope();
             builder.RegisterType<SettingService>().As<ISettingService>().InstancePerLifetimeScope();
+            builder.RegisterType<PictureService>().As<IPictureService>().InstancePerLifetimeScope();
             builder.RegisterType<DefaultLogger>().As<ILogger>().InstancePerLifetimeScope();
             builder.RegisterType<RoutePublisher>().As<IRoutePublisher>().SingleInstance();
+            builder.RegisterType<PageHeadBuilder>().As<IPageHeadBuilder>().InstancePerLifetimeScope();
 
             builder.RegisterType<EventPublisher>().As<IEventPublisher>().SingleInstance();
 

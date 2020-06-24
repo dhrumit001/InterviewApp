@@ -15,7 +15,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 
 namespace App.Core
 {
@@ -188,7 +187,7 @@ namespace App.Core
                 return string.Empty;
 
             //get store location
-            var storeLocation = GetStoreLocation();
+            var storeLocation = GetSiteLocation();
 
             //add local path to the URL
             var pageUrl = $"{storeLocation.TrimEnd('/')}{_httpContextAccessor.HttpContext.Request.Path}";
@@ -209,7 +208,7 @@ namespace App.Core
         /// </summary>
         /// <param name="useSsl">Whether to get SSL secured URL</param>
         /// <returns>Store host location</returns>
-        public virtual string GetStoreHost()
+        public virtual string GetSiteHost()
         {
             if (!IsRequestAvailable())
                 return string.Empty;
@@ -233,12 +232,12 @@ namespace App.Core
         /// </summary>
         /// <param name="useSsl">Whether to get SSL secured URL; pass null to determine automatically</param>
         /// <returns>Store location</returns>
-        public virtual string GetStoreLocation(bool? useSsl = null)
+        public virtual string GetSiteLocation(bool? useSsl = null)
         {
             var storeLocation = string.Empty;
 
             //get store host
-            var storeHost = GetStoreHost();
+            var storeHost = GetSiteHost();
             if (!string.IsNullOrEmpty(storeHost))
             {
                 //add application path base if exists
@@ -287,7 +286,7 @@ namespace App.Core
             //prepare URI object
             var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext);
             var isLocalUrl = urlHelper.IsLocalUrl(url);
-            var uri = new Uri(isLocalUrl ? $"{GetStoreLocation().TrimEnd('/')}{url}" : url, UriKind.Absolute);
+            var uri = new Uri(isLocalUrl ? $"{GetSiteLocation().TrimEnd('/')}{url}" : url, UriKind.Absolute);
 
             //get current query parameters
             var queryParameters = QueryHelpers.ParseQuery(uri.Query);
@@ -327,7 +326,7 @@ namespace App.Core
             //prepare URI object
             var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext);
             var isLocalUrl = urlHelper.IsLocalUrl(url);
-            var uri = new Uri(isLocalUrl ? $"{GetStoreLocation().TrimEnd('/')}{url}" : url, UriKind.Absolute);
+            var uri = new Uri(isLocalUrl ? $"{GetSiteLocation().TrimEnd('/')}{url}" : url, UriKind.Absolute);
 
             //get current query parameters
             var queryParameters = QueryHelpers.ParseQuery(uri.Query)

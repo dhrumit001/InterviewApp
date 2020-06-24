@@ -1,5 +1,7 @@
-﻿using App.Core.Domain.Logging;
+﻿using App.Core.Domain.Categorize;
+using App.Core.Domain.Logging;
 using App.Core.Infrastructure.Mapper;
+using App.Web.Areas.Admin.Models.Categorize;
 using App.Web.Areas.Admin.Models.Logging;
 using App.Web.Framework.Models;
 using AutoMapper;
@@ -22,6 +24,7 @@ namespace App.Web.Areas.Admin.Infrastructure.Mapper
             //create specific maps
             CreateLoggingMaps();
 
+            CreateCategorizeMaps();
 
             //add some generic mapping rules
             ForAllMaps((mapConfiguration, map) =>
@@ -30,7 +33,7 @@ namespace App.Web.Areas.Admin.Infrastructure.Mapper
                 if (typeof(BaseModel).IsAssignableFrom(mapConfiguration.DestinationType))
                 {
                     //map.ForMember(nameof(BaseNopModel.Form), options => options.Ignore());
-                   // map.ForMember(nameof(BaseModel.CustomProperties), options => options.Ignore());
+                    // map.ForMember(nameof(BaseModel.CustomProperties), options => options.Ignore());
                 }
 
             });
@@ -45,7 +48,7 @@ namespace App.Web.Areas.Admin.Infrastructure.Mapper
         /// </summary>
         protected virtual void CreateLoggingMaps()
         {
-            
+
             CreateMap<Log, LogModel>()
                 .ForMember(model => model.CreatedOn, options => options.Ignore())
                 .ForMember(model => model.FullMessage, options => options.Ignore())
@@ -54,6 +57,23 @@ namespace App.Web.Areas.Admin.Infrastructure.Mapper
                 .ForMember(entity => entity.CreatedOnUtc, options => options.Ignore())
                 .ForMember(entity => entity.User, options => options.Ignore())
                 .ForMember(entity => entity.LogLevelId, options => options.Ignore());
+        }
+
+        /// <summary>
+        /// Create catalog maps 
+        /// </summary>
+        protected virtual void CreateCategorizeMaps()
+        {
+
+            CreateMap<Category, CategoryModel>()
+            .ForMember(model => model.AvailableCategories, options => options.Ignore())
+            .ForMember(model => model.Breadcrumb, options => options.Ignore());
+
+            CreateMap<CategoryModel, Category>()
+            .ForMember(entity => entity.CreatedOnUtc, options => options.Ignore())
+            .ForMember(entity => entity.Deleted, options => options.Ignore())
+            .ForMember(entity => entity.UpdatedOnUtc, options => options.Ignore());
+
         }
 
         #endregion

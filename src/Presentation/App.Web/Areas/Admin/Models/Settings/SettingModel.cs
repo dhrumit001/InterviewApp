@@ -1,4 +1,5 @@
 ﻿using App.Web.Framework.Models;
+using System.ComponentModel;
 
 namespace App.Web.Areas.Admin.Models.Settings
 {
@@ -17,7 +18,10 @@ namespace App.Web.Areas.Admin.Models.Settings
 
         #region Properties
 
+        [DisplayName("Setting name")]
         public string Name { get; set; }
+
+        [DisplayName("Value")]
         public string Value { get; set; }
         #endregion
     }

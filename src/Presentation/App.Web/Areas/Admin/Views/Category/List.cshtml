@@ -1,0 +1,107 @@
+@model CategorySearchModel
+
+@{
+    //page title
+    ViewBag.Title = "Categories";
+    //active menu item (system name)
+    //Html.SetActiveMenuItemSystemName("Categories");
+    Layout = "/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@{
+    const string hideSearchBlockAttributeName = "CategoryPage.HideSearchBlock";
+    //var hideSearchBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideSearchBlockAttributeName);
+}
+<app-antiforgery-token />
+<div class="content-header clearfix">
+    <h1 class="pull-left">
+        Categories
+    </h1>
+    <div class="pull-right">
+        <a asp-action="Create" class="btn bg-blue">
+            <i class="fa fa-plus-square"></i>
+            Add new
+        </a>
+
+    </div>
+</div>
+
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+            <div class="panel panel-default panel-search">
+                <div class="panel-body">
+                    <div class="row search-row opened">
+                        <div class="search-text">Search</div>
+                        <div class="icon-search"><i class="fa fa-search" aria-hidden="true"></i></div>
+                        <div class="icon-collapse"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                    </div>
+
+                    <div class="search-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <app-label asp-for="SearchCategoryName" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <app-editor asp-for="SearchCategoryName" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-8 col-md-offset-4">
+                                        <button type="button" id="search-categories" class="btn btn-primary btn-search"><i class="fa fa-search"></i>Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    @await Html.PartialAsync("Table", new DataTablesModel
+                    {
+                        Name = "categories-grid",
+                        UrlRead = new DataUrl("List", "Category", null),
+                        SearchButtonId = "search-categories",
+                        Length = Model.PageSize,
+                        LengthMenu = Model.AvailablePageSizes,
+                        Filters = new List<FilterParameter>
+                        {
+                            new FilterParameter(nameof(Model.SearchCategoryName)),
+                        },
+                        ColumnCollection = new List<ColumnProperty>
+                        {
+                            new ColumnProperty(nameof(CategoryModel.Breadcrumb))
+                            {
+                                Title = "Name"
+                            },
+                            new ColumnProperty(nameof(CategoryModel.Published))
+                            {
+                                Title = "Published",
+                                Width = "100",
+                                ClassName = NopColumnClassDefaults.CenterAll,
+                                Render = new RenderBoolean()
+                            },
+                            new ColumnProperty(nameof(CategoryModel.DisplayOrder))
+                            {
+                                Title = "Display order",
+                                Width = "150",
+                                ClassName =  NopColumnClassDefaults.CenterAll
+                            },
+                            new ColumnProperty(nameof(CategoryModel.Id))
+                            {
+                                Title = "Edit",
+                                Width = "100",
+                                ClassName =  NopColumnClassDefaults.Button,
+                                Render = new RenderButtonEdit(new DataUrl("Edit"))
+                            }
+                        }
+                    })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

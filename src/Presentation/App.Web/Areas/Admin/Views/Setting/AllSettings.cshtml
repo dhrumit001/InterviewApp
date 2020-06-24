@@ -21,7 +21,7 @@
 
             <div class="panel panel-default panel-search">
                 <div class="panel-body">
-                    <div class="row search-row opened">
+                    <div class="row search-row">
                         <div class="search-text">Search</div>
                         <div class="icon-search"><i class="fa fa-search" aria-hidden="true"></i></div>
                         <div class="icon-collapse"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
@@ -33,20 +33,20 @@
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <div class="col-md-4">
-                                        <div class="label-wrapper"><label class="control-label" for="Message">Name</label><div title="Message." data-toggle="tooltip" class="ico-help"><i class="fa fa-question-circle"></i></div></div>
+                                        <app-label asp-for="SearchSettingName" />
                                     </div>
                                     <div class="col-md-8">
-                                        <input class="form-control text-box single-line" id="SearchSettingName" name="SearchSettingName" type="text" value="">
+                                        <app-editor asp-for="SearchSettingName" />
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-7">
                                 <div class="form-group">
                                     <div class="col-md-4">
-                                        <div class="label-wrapper"><label class="control-label" for="Message">Value</label><div title="Message." data-toggle="tooltip" class="ico-help"><i class="fa fa-question-circle"></i></div></div>
+                                        <app-label asp-for="SearchSettingValue" />
                                     </div>
                                     <div class="col-md-8">
-                                        <input class="form-control text-box single-line" id="SearchSettingValue" name="SearchSettingValue" type="text" value="">
+                                        <app-editor asp-for="SearchSettingValue" />
                                     </div>
                                 </div>
                             </div>
@@ -83,7 +83,7 @@
                         {
                             new ColumnProperty(nameof(SettingModel.Name))
                             {
-                                Title = "Name",
+                                Title = "Setting name",
                                 Width = "300",
                                 Editable = true,
                                 EditType = EditType.String
@@ -152,8 +152,7 @@
                                     Value: $("#@Html.IdFor(model => model.AddSetting.Value)").val()
                                 };
                                 addAntiForgeryToken(postData);
-                                console.log("#@Html.IdFor(model => model.AddSetting.Name)")
-                                debugger
+                                
                                 $.ajax({
                                     cache: false,
                                     type: "POST",

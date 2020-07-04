@@ -20,6 +20,8 @@ namespace App.Web.Areas.Admin.Factories
         /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
         void PrepareCategories(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null);
 
+        void PrepareQuestionTypes(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null);
+
         /// <summary>
         /// Prepare available log levels
         /// </summary>

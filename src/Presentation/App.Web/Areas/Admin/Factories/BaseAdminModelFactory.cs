@@ -1,4 +1,5 @@
 ﻿using App.Core.Caching;
+using App.Core.Domain.Categorize;
 using App.Core.Domain.Logging;
 using App.Services;
 using App.Services.Categorize;
@@ -100,6 +101,28 @@ namespace App.Web.Areas.Admin.Factories
             foreach (var logLevelItem in availableLogLevelItems)
             {
                 items.Add(logLevelItem);
+            }
+
+            //insert special item for the default value
+            PrepareDefaultItem(items, withSpecialDefaultItem, defaultItemText);
+        }
+
+        /// <summary>
+        /// Prepare available product types
+        /// </summary>
+        /// <param name="items">Product type items</param>
+        /// <param name="withSpecialDefaultItem">Whether to insert the first special item for the default value</param>
+        /// <param name="defaultItemText">Default item text; pass null to use default value of the default item text</param>
+        public virtual void PrepareQuestionTypes(IList<SelectListItem> items, bool withSpecialDefaultItem = true, string defaultItemText = null)
+        {
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
+
+            //prepare available product types
+            var availableQuestionTypeItems = QuestionType.SimpleQuestion.ToSelectList(false);
+            foreach (var questionTypeItem in availableQuestionTypeItems)
+            {
+                items.Add(questionTypeItem);
             }
 
             //insert special item for the default value

@@ -1,0 +1,196 @@
+﻿@model QuestionSearchModel
+
+@using App.Core.Domain.Categorize;
+
+@{
+    //page title
+    ViewBag.Title = "Questions";
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Questions");
+}
+
+@{
+    const string hideSearchBlockAttributeName = "QuestionListPage.HideSearchBlock";
+    //var hideSearchBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideSearchBlockAttributeName);
+}
+
+<form asp-controller="Question" asp-action="List" method="post">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            Questions
+        </h1>
+        <div class="pull-right">
+            <a asp-action="Create" class="btn bg-blue">
+                <i class="fa fa-plus-square"></i>
+                Add new
+            </a>
+
+            <button type="button" id="delete-selected" class="btn bg-red">
+                <i class="fa fa-trash-o"></i>
+                Delete (selected)
+            </button>
+            <app-action-confirmation asp-button-id="delete-selected" />
+
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="panel-group">
+                <div class="panel panel-default panel-search">
+                    <div class="panel-body">
+                        <div class="row search-row">
+                            <div class="search-text">Search</div>
+                            <div class="icon-search"><i class="fa fa-search" aria-hidden="true"></i></div>
+                            <div class="icon-collapse"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                        </div>
+
+                        <div class="search-body">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <app-label asp-for="SearchQuestionName" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <app-editor asp-for="SearchQuestionName" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <app-label asp-for="SearchCategoryId" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <app-select asp-for="SearchCategoryId" asp-items="Model.AvailableCategories" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <app-label asp-for="SearchIncludeSubCategories" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <app-editor asp-for="SearchIncludeSubCategories" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <app-label asp-for="SearchQuestionTypeId" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <app-select asp-for="SearchQuestionTypeId" asp-items="Model.AvailableQuestionTypes" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <app-label asp-for="SearchPublishedId" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <app-select asp-for="SearchPublishedId" asp-items="Model.AvailablePublishedOptions" />
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-7 col-md-offset-5">
+                                    <button type="button" id="search-questions" class="btn btn-primary btn-search">
+                                        <i class="fa fa-search"></i>
+                                        Search
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        @await Html.PartialAsync("Table", new DataTablesModel
+                        {
+                            Name = "questions-grid",
+                            UrlRead = new DataUrl("QuestionList", "Question", null),
+                            SearchButtonId = "search-questions",
+                            Length = Model.PageSize,
+                            LengthMenu = Model.AvailablePageSizes,
+                            Filters = new List<FilterParameter>
+                            {
+                                new FilterParameter(nameof(Model.SearchQuestionName)),
+                                new FilterParameter(nameof(Model.SearchCategoryId)),
+                                new FilterParameter(nameof(Model.SearchIncludeSubCategories), typeof(bool)),
+                                new FilterParameter(nameof(Model.SearchQuestionTypeId)),
+                                new FilterParameter(nameof(Model.SearchPublishedId))
+                            },
+                            ColumnCollection = new List<ColumnProperty>
+                            {
+                                new ColumnProperty(nameof(QuestionModel.Id))
+                                {
+                                    IsMasterCheckBox = true,
+                                    Render = new RenderCheckBox("checkbox_products"),
+                                    ClassName =  NopColumnClassDefaults.CenterAll,
+                                    Width = "50",
+                                },
+                                new ColumnProperty(nameof(QuestionModel.Name))
+                                {
+                                    Title = "Question name",
+                                    Width = "300"
+                                },
+                                new ColumnProperty(nameof(QuestionModel.QuestionTypeName))
+                                {
+                                    Title = "Question type",
+                                    Width = "100"
+                                },
+                                new ColumnProperty(nameof(QuestionModel.Published))
+                                {
+                                    Title = "Published",
+                                    Width = "100",
+                                    ClassName = NopColumnClassDefaults.CenterAll,
+                                    Render = new RenderBoolean()
+                                },
+                                new ColumnProperty(nameof(QuestionModel.Id))
+                                {
+                                    Title = "Edit",
+                                    Width = "100",
+                                    ClassName =  NopColumnClassDefaults.Button,
+                                    Render = new RenderButtonEdit(new DataUrl("Edit"))
+                                }
+                            }
+                        })
+
+                        <script>
+                             $(document).ready(function () {
+                                 $('#delete-selected-action-confirmation-submit-button').bind('click', function () {
+                                     
+                                    var postData = {
+                                        selectedIds: selectedIds
+                                    };
+                                    
+                                    $.ajax({
+                                        cache: false,
+                                        type: "POST",
+                                        url: "@(Url.Action("DeleteSelected", "Question"))",
+                                        data: postData,
+                                        error: function (jqXHR, textStatus, errorThrown) {
+                                            debugger
+                                            $('#deleteSelectedFailed-info').text(errorThrown);
+                                            $('#deleteSelectedFailed').click();
+                                        },
+                                        complete: function (jqXHR, textStatus) {
+                                            updateTable('#questions-grid');
+                                        }
+                                    });
+                                    $('#delete-selected-action-confirmation').modal('toggle');
+                                    return false;
+                                });
+                            });
+
+                        </script>
+                        <app-alert asp-alert-id="deleteSelectedFailed" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>

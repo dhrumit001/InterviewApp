@@ -22,6 +22,7 @@ namespace App.Web.Infrastructure
             builder.RegisterType<LogModelFactory>().As<ILogModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<SettingModelFactory>().As<ISettingModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<BaseAdminModelFactory>().As<IBaseAdminModelFactory>().InstancePerLifetimeScope();
+            builder.RegisterType<QuestionModelFactory>().As<IQuestionModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<CategoryModelFactory>().As<ICategoryModelFactory>().InstancePerLifetimeScope();
         }
     }

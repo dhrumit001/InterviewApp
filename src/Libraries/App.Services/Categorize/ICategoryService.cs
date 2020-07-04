@@ -119,5 +119,52 @@ namespace App.Services.Categorize
         /// <param name="showHidden">A value indicating whether to load hidden records</param>
         /// <returns>Category breadcrumb </returns>
         IList<Category> GetCategoryBreadCrumb(Category category, IList<Category> allCategories = null, bool showHidden = false);
+
+        /// <summary>
+        /// Gets product category mapping collection
+        /// </summary>
+        /// <param name="categoryId">Category identifier</param>
+        /// <param name="pageIndex">Page index</param>
+        /// <param name="pageSize">Page size</param>
+        /// <param name="showHidden">A value indicating whether to show hidden records</param>
+        /// <returns>Product a category mapping collection</returns>
+        IPagedList<QuestionCategory> GetQuestionCategoriesByCategoryId(int categoryId,
+            int pageIndex = 0, int pageSize = int.MaxValue, bool showHidden = false);
+
+        /// <summary>
+        /// Gets a product category mapping collection
+        /// </summary>
+        /// <param name="productId">Product identifier</param>
+        /// <param name="storeId">Store identifier (used in multi-store environment). "showHidden" parameter should also be "true"</param>
+        /// <param name="showHidden"> A value indicating whether to show hidden records</param>
+        /// <returns> Product category mapping collection</returns>
+        IList<QuestionCategory> GetQuestionCategoriesByQuestionId(int questionId, bool showHidden = false);
+
+        /// <summary>
+        /// Inserts a product category mapping
+        /// </summary>
+        /// <param name="questionCategory">>Product category mapping</param>
+        void InsertQuestionCategory(QuestionCategory questionCategory);
+
+        /// <summary>
+        /// Updates the product category mapping 
+        /// </summary>
+        /// <param name="questionCategory">>Product category mapping</param>
+        void UpdateProductCategory(QuestionCategory questionCategory);
+
+        /// <summary>
+        /// Deletes a product category mapping
+        /// </summary>
+        /// <param name="questionCategory">Product category</param>
+        void DeleteQuestionCategory(QuestionCategory questionCategory);
+
+        /// <summary>
+        /// Returns a ProductCategory that has the specified values
+        /// </summary>
+        /// <param name="source">Source</param>
+        /// <param name="productId">Product identifier</param>
+        /// <param name="categoryId">Category identifier</param>
+        /// <returns>A ProductCategory that has the specified values; otherwise null</returns>
+        QuestionCategory FindQuestionCategory(IList<QuestionCategory> source, int questionId, int categoryId);
     }
 }

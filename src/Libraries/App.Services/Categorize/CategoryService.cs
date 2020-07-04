@@ -1,4 +1,5 @@
 ﻿using App.Core;
+using App.Core.Caching;
 using App.Core.Data;
 using App.Core.Domain.Categorize;
 using App.Data;
@@ -16,24 +17,32 @@ namespace App.Services.Categorize
     {
         #region Fields
 
+        private readonly ICacheManager _cacheManager;
         private readonly IDbContext _dbContext;
         private readonly IEventPublisher _eventPublisher;
         private readonly IRepository<Category> _categoryRepository;
+        private readonly IRepository<QuestionCategory> _questionCategoryRepository;
+        private readonly IRepository<Question> _questionRepository;
         private readonly IWorkContext _workContext;
 
         #endregion
 
         #region Ctor
 
-        public CategoryService(
+        public CategoryService(ICacheManager cacheManager,
             IDbContext dbContext,
             IEventPublisher eventPublisher,
             IRepository<Category> categoryRepository,
+            IRepository<QuestionCategory> questionCategoryRepository,
+            IRepository<Question> questionRepository,
             IWorkContext workContext)
         {
+            _cacheManager = cacheManager;
             _dbContext = dbContext;
             _eventPublisher = eventPublisher;
             _categoryRepository = categoryRepository;
+            _questionCategoryRepository = questionCategoryRepository;
+            _questionRepository = questionRepository;
             _workContext = workContext;
         }
 
@@ -363,6 +372,142 @@ namespace App.Services.Categorize
 
             result.Reverse();
             return result;
+        }
+
+        /// <summary>
+        /// Gets product category mapping collection
+        /// </summary>
+        /// <param name="categoryId">Category identifier</param>
+        /// <param name="pageIndex">Page index</param>
+        /// <param name="pageSize">Page size</param>
+        /// <param name="showHidden">A value indicating whether to show hidden records</param>
+        /// <returns>Product a category mapping collection</returns>
+        public virtual IPagedList<QuestionCategory> GetQuestionCategoriesByCategoryId(int categoryId,
+            int pageIndex = 0, int pageSize = int.MaxValue, bool showHidden = false)
+        {
+            if (categoryId == 0)
+                return new PagedList<QuestionCategory>(new List<QuestionCategory>(), pageIndex, pageSize);
+
+            var key = string.Format(AppCatalogDefaults.QuestionCategoriesAllByCategoryIdCacheKey, showHidden, categoryId, pageIndex, pageSize);
+            return _cacheManager.Get(key, () =>
+            {
+                var query = from pc in _questionCategoryRepository.Table
+                            join p in _questionRepository.Table on pc.QuestionId equals p.Id
+                            where pc.CategoryId == categoryId &&
+                                  !p.Deleted &&
+                                  (showHidden || p.Published)
+                            orderby pc.DisplayOrder, pc.Id
+                            select pc;
+
+                query = query.Distinct().OrderBy(pc => pc.DisplayOrder).ThenBy(pc => pc.Id);
+
+                var questionCategories = new PagedList<QuestionCategory>(query, pageIndex, pageSize);
+                return questionCategories;
+            });
+        }
+
+        /// <summary>
+        /// Gets a product category mapping collection
+        /// </summary>
+        /// <param name="productId">Product identifier</param>
+        /// <param name="storeId">Store identifier (used in multi-store environment). "showHidden" parameter should also be "true"</param>
+        /// <param name="showHidden"> A value indicating whether to show hidden records</param>
+        /// <returns> Product category mapping collection</returns>
+        public virtual IList<QuestionCategory> GetQuestionCategoriesByQuestionId(int questionId, bool showHidden = false)
+        {
+            if (questionId == 0)
+                return new List<QuestionCategory>();
+
+            var key = string.Format(AppCatalogDefaults.QuestionCategoriesAllByQuestionIdCacheKey, showHidden, questionId);
+            return _cacheManager.Get(key, () =>
+            {
+                var query = from pc in _questionCategoryRepository.Table
+                            join c in _categoryRepository.Table on pc.CategoryId equals c.Id
+                            where pc.QuestionId == questionId &&
+                                  !c.Deleted &&
+                                  (showHidden || c.Published)
+                            orderby pc.DisplayOrder, pc.Id
+                            select pc;
+
+                var allQuestionCategories = query.ToList();
+                var result = new List<QuestionCategory>();
+                //no filtering
+                result.AddRange(allQuestionCategories);
+
+                return result;
+            });
+        }
+
+
+        /// <summary>
+        /// Inserts a product category mapping
+        /// </summary>
+        /// <param name="questionCategory">>Product category mapping</param>
+        public virtual void InsertQuestionCategory(QuestionCategory questionCategory)
+        {
+            if (questionCategory == null)
+                throw new ArgumentNullException(nameof(questionCategory));
+
+            _questionCategoryRepository.Insert(questionCategory);
+
+            //cache
+            _cacheManager.RemoveByPrefix(AppCatalogDefaults.QuestionCategoriesPrefixCacheKey);
+
+            //event notification
+            _eventPublisher.EntityInserted(questionCategory);
+        }
+
+        /// <summary>
+        /// Updates the product category mapping 
+        /// </summary>
+        /// <param name="questionCategory">>Product category mapping</param>
+        public virtual void UpdateProductCategory(QuestionCategory questionCategory)
+        {
+            if (questionCategory == null)
+                throw new ArgumentNullException(nameof(questionCategory));
+
+            _questionCategoryRepository.Update(questionCategory);
+
+            //cache
+            _cacheManager.RemoveByPrefix(AppCatalogDefaults.QuestionCategoriesPrefixCacheKey);
+
+            //event notification
+            _eventPublisher.EntityUpdated(questionCategory);
+        }
+
+
+        /// <summary>
+        /// Deletes a product category mapping
+        /// </summary>
+        /// <param name="questionCategory">Product category</param>
+        public virtual void DeleteQuestionCategory(QuestionCategory questionCategory)
+        {
+            if (questionCategory == null)
+                throw new ArgumentNullException(nameof(questionCategory));
+
+            _questionCategoryRepository.Delete(questionCategory);
+
+            //cache
+            _cacheManager.RemoveByPrefix(AppCatalogDefaults.QuestionCategoriesPrefixCacheKey);
+
+            //event notification
+            _eventPublisher.EntityDeleted(questionCategory);
+        }
+
+        /// <summary>
+        /// Returns a ProductCategory that has the specified values
+        /// </summary>
+        /// <param name="source">Source</param>
+        /// <param name="productId">Product identifier</param>
+        /// <param name="categoryId">Category identifier</param>
+        /// <returns>A ProductCategory that has the specified values; otherwise null</returns>
+        public virtual QuestionCategory FindQuestionCategory(IList<QuestionCategory> source, int questionId, int categoryId)
+        {
+            foreach (var questionCategory in source)
+                if (questionCategory.QuestionId == questionId && questionCategory.CategoryId == categoryId)
+                    return questionCategory;
+
+            return null;
         }
 
         #endregion

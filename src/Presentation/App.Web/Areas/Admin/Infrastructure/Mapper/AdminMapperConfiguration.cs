@@ -74,6 +74,14 @@ namespace App.Web.Areas.Admin.Infrastructure.Mapper
             .ForMember(entity => entity.Deleted, options => options.Ignore())
             .ForMember(entity => entity.UpdatedOnUtc, options => options.Ignore());
 
+            //products
+            CreateMap<Question, QuestionModel>()
+            .ForMember(model => model.QuestionTypeName, options => options.Ignore());
+
+            CreateMap<QuestionModel, Question>()
+            .ForMember(entity => entity.CreatedOnUtc, options => options.Ignore())
+            .ForMember(entity => entity.Deleted, options => options.Ignore())
+            .ForMember(entity => entity.UpdatedOnUtc, options => options.Ignore());
         }
 
         #endregion

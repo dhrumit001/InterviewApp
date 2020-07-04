@@ -1,0 +1,14 @@
+﻿@model QuestionModel
+
+<div asp-validation-summary="All"></div>
+<input asp-for="Id" type="hidden" />
+
+<div class="content">
+    <div class="form-horizontal">
+        
+        <app-panels id="question-panels">
+            <app-panel asp-name="question-info" asp-icon="fa fa-info" asp-title="Question info" asp-advanced="false">@await Html.PartialAsync("_CreateOrUpdate.Info", Model)</app-panel>
+            
+        </app-panels>
+    </div>
+</div>

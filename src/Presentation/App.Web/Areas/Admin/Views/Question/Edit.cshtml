@@ -1,0 +1,38 @@
+﻿@model QuestionModel
+
+@{
+    //page title
+    ViewBag.Title = "Edit question details";
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Questions");
+}
+
+<form asp-controller="Question" asp-action="Edit" method="post" id="question-form">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            Edit question details
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a asp-action="List">back to question list</a>
+            </small>
+        </h1>
+        <div class="pull-right">
+            <button type="submit" name="save" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                Save
+            </button>
+            <button type="submit" name="save-continue" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                Save and Continue Edit
+            </button>
+            
+            <span id="question-delete" class="btn bg-red">
+                <i class="fa fa-trash-o"></i>
+                Delete
+            </span>
+            
+        </div>
+    </div>
+    @await Html.PartialAsync("_CreateOrUpdate", Model)
+</form>
+<app-delete-confirmation asp-model-id="@Model.Id" asp-button-id="question-delete" />

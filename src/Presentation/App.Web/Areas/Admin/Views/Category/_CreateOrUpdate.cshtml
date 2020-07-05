@@ -26,6 +26,7 @@
         <app-panels id="category-panels">
             <app-panel asp-name="category-info" asp-icon="fa fa-info" asp-title="Category info" asp-advanced="false">@await Html.PartialAsync("_CreateOrUpdate.Info", Model)</app-panel>
             <app-panel asp-name="category-display" asp-icon="fa fa-television" asp-title="Display" asp-advanced="false">@await Html.PartialAsync("_CreateOrUpdate.Display", Model)</app-panel>
+            <app-panel asp-name="category-questions" asp-icon="fa fa-th-list" asp-title="Questions" asp-advanced="true">@await Html.PartialAsync("_CreateOrUpdate.Questions", Model)</app-panel>
         </app-panels>
     </div>
 </div>

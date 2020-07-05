@@ -461,7 +461,7 @@ namespace App.Services.Categorize
         /// Updates the product category mapping 
         /// </summary>
         /// <param name="questionCategory">>Product category mapping</param>
-        public virtual void UpdateProductCategory(QuestionCategory questionCategory)
+        public virtual void UpdateQuestionCategory(QuestionCategory questionCategory)
         {
             if (questionCategory == null)
                 throw new ArgumentNullException(nameof(questionCategory));
@@ -508,6 +508,34 @@ namespace App.Services.Categorize
                     return questionCategory;
 
             return null;
+        }
+
+        /// <summary>
+        /// Gets a product category mapping 
+        /// </summary>
+        /// <param name="productCategoryId">Product category mapping identifier</param>
+        /// <returns>Product category mapping</returns>
+        public virtual QuestionCategory GetQuestionCategoryById(int questionCategoryId)
+        {
+            if (questionCategoryId == 0)
+                return null;
+
+            return _questionCategoryRepository.GetById(questionCategoryId);
+        }
+
+        /// <summary>
+        /// Get category IDs for products
+        /// </summary>
+        /// <param name="questionIds">Products IDs</param>
+        /// <returns>Category IDs for products</returns>
+        public virtual IDictionary<int, int[]> GetQuestionCategoryIds(int[] questionIds)
+        {
+            var query = _questionCategoryRepository.Table;
+
+            return query.Where(p => questionIds.Contains(p.QuestionId))
+                .Select(p => new { p.QuestionId, p.CategoryId }).ToList()
+                .GroupBy(a => a.QuestionId)
+                .ToDictionary(items => items.Key, items => items.Select(a => a.CategoryId).ToArray());
         }
 
         #endregion

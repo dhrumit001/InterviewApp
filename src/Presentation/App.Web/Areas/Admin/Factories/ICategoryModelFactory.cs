@@ -1,9 +1,5 @@
 ﻿using App.Core.Domain.Categorize;
 using App.Web.Areas.Admin.Models.Categorize;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace App.Web.Areas.Admin.Factories
 {
@@ -35,5 +31,28 @@ namespace App.Web.Areas.Admin.Factories
         /// <returns>Category model</returns>
         CategoryModel PrepareCategoryModel(CategoryModel model, Category category, bool excludeProperties = false);
 
+
+        /// <summary>
+        /// Prepare paged category product list model
+        /// </summary>
+        /// <param name="searchModel">Category product search model</param>
+        /// <param name="category">Category</param>
+        /// <returns>Category product list model</returns>
+        CategoryQuestionListModel PrepareCategoryQuestionListModel(CategoryQuestionSearchModel searchModel, Category category);
+
+        /// <summary>
+        /// Prepare product search model to add to the category
+        /// </summary>
+        /// <param name="searchModel">Product search model to add to the category</param>
+        /// <returns>Product search model to add to the category</returns>
+        AddQuestionToCategorySearchModel PrepareAddQuestionToCategorySearchModel(AddQuestionToCategorySearchModel searchModel);
+
+        /// <summary>
+        /// Prepare paged product list model to add to the category
+        /// </summary>
+        /// <param name="searchModel">Product search model to add to the category</param>
+        /// <returns>Product list model to add to the category</returns>
+        AddQuestionToCategoryListModel PrepareAddQuestionToCategoryListModel(AddQuestionToCategorySearchModel searchModel);
+        
     }
 }

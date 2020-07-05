@@ -149,8 +149,8 @@ namespace App.Services.Categorize
         /// <summary>
         /// Updates the product category mapping 
         /// </summary>
-        /// <param name="questionCategory">>Product category mapping</param>
-        void UpdateProductCategory(QuestionCategory questionCategory);
+        /// <param name="productCategory">>Product category mapping</param>
+        void UpdateQuestionCategory(QuestionCategory questionCategory);
 
         /// <summary>
         /// Deletes a product category mapping
@@ -166,5 +166,20 @@ namespace App.Services.Categorize
         /// <param name="categoryId">Category identifier</param>
         /// <returns>A ProductCategory that has the specified values; otherwise null</returns>
         QuestionCategory FindQuestionCategory(IList<QuestionCategory> source, int questionId, int categoryId);
+
+        /// <summary>
+        /// Gets a product category mapping 
+        /// </summary>
+        /// <param name="productCategoryId">Product category mapping identifier</param>
+        /// <returns>Product category mapping</returns>
+        QuestionCategory GetQuestionCategoryById(int questionCategoryId);
+        
+        /// <summary>
+        /// Get category IDs for products
+        /// </summary>
+        /// <param name="productIds">Products IDs</param>
+        /// <returns>Category IDs for products</returns>
+        IDictionary<int, int[]> GetQuestionCategoryIds(int[] productIds);
+        
     }
 }

@@ -10,6 +10,9 @@ using App.Web.Areas.Admin.Models.Categorize;
 using App.Web.Areas.Admin.Infrastructure.Mapper.Extensions;
 using App.Web.Framework.Mvc.Filters;
 using App.Web.Areas.Admin.Factories;
+using App.Web.Framework.Mvc;
+using App.Web.Framework.Controllers;
+using System.Linq;
 
 namespace App.Web.Areas.Admin.Controllers
 {
@@ -19,6 +22,7 @@ namespace App.Web.Areas.Admin.Controllers
 
         private readonly ICategoryModelFactory _categoryModelFactory;
         private readonly ICategoryService _categoryService;
+        private readonly IQuestionService _questionService;
         private readonly INotificationService _notificationService;
         private readonly IPermissionService _permissionService;
         private readonly IPictureService _pictureService;
@@ -30,6 +34,7 @@ namespace App.Web.Areas.Admin.Controllers
 
         public CategoryController(ICategoryModelFactory categoryModelFactory,
             ICategoryService categoryService,
+            IQuestionService questionService,
             INotificationService notificationService,
             IPermissionService permissionService,
             IPictureService pictureService,
@@ -37,6 +42,7 @@ namespace App.Web.Areas.Admin.Controllers
         {
             _categoryModelFactory = categoryModelFactory;
             _categoryService = categoryService;
+            _questionService = questionService;
             _notificationService = notificationService;
             _permissionService = permissionService;
             _pictureService = pictureService;
@@ -103,7 +109,7 @@ namespace App.Web.Areas.Admin.Controllers
                 category.UpdatedOnUtc = DateTime.UtcNow;
                 _categoryService.InsertCategory(category);
 
-                
+
                 _categoryService.UpdateCategory(category);
 
                 _notificationService.SuccessNotification("The new category has been added successfully.");
@@ -199,5 +205,110 @@ namespace App.Web.Areas.Admin.Controllers
 
         #endregion
 
+        #region Questions
+
+        [HttpPost]
+        public virtual IActionResult QuestionList(CategoryQuestionSearchModel searchModel)
+        {
+            if (!_permissionService.Authorize(StandardPermission.ManageQuestions))
+                return AccessDeniedDataTablesJson();
+
+            //try to get a category with the specified id
+            var category = _categoryService.GetCategoryById(searchModel.CategoryId)
+                ?? throw new ArgumentException("No category found with the specified id");
+
+            //prepare model
+            var model = _categoryModelFactory.PrepareCategoryQuestionListModel(searchModel, category);
+
+            return Json(model);
+        }
+
+        public virtual IActionResult QuestionUpdate(CategoryQuestionModel model)
+        {
+            if (!_permissionService.Authorize(StandardPermission.ManageCategories))
+                return AccessDeniedView();
+
+            //try to get a product category with the specified id
+            var questionCategory = _categoryService.GetQuestionCategoryById(model.Id)
+                ?? throw new ArgumentException("No question category mapping found with the specified id");
+
+            //fill entity from product
+            questionCategory = model.ToEntity(questionCategory);
+            _categoryService.UpdateQuestionCategory(questionCategory);
+
+            return new NullJsonResult();
+        }
+
+        public virtual IActionResult QuestionDelete(int id)
+        {
+            if (!_permissionService.Authorize(StandardPermission.ManageCategories))
+                return AccessDeniedView();
+
+            //try to get a product category with the specified id
+            var questionCategory = _categoryService.GetQuestionCategoryById(id)
+                ?? throw new ArgumentException("No question category mapping found with the specified id", nameof(id));
+
+            _categoryService.DeleteQuestionCategory(questionCategory);
+
+            return new NullJsonResult();
+        }
+
+        public virtual IActionResult QuestionAddPopup(int categoryId)
+        {
+            if (!_permissionService.Authorize(StandardPermission.ManageCategories))
+                return AccessDeniedView();
+
+            //prepare model
+            var model = _categoryModelFactory.PrepareAddQuestionToCategorySearchModel(new AddQuestionToCategorySearchModel());
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public virtual IActionResult QuestionAddPopupList(AddQuestionToCategorySearchModel searchModel)
+        {
+            if (!_permissionService.Authorize(StandardPermission.ManageCategories))
+                return AccessDeniedDataTablesJson();
+
+            //prepare model
+            var model = _categoryModelFactory.PrepareAddQuestionToCategoryListModel(searchModel);
+
+            return Json(model);
+        }
+
+        [HttpPost]
+        [FormValueRequired("save")]
+        public virtual IActionResult QuestionAddPopup(AddQuestionToCategoryModel model)
+        {
+            if (!_permissionService.Authorize(StandardPermission.ManageCategories))
+                return AccessDeniedView();
+
+            //get selected products
+            var selectedQuestions = _questionService.GetQuestionsByIds(model.SelectedQuestionIds.ToArray());
+            if (selectedQuestions.Any())
+            {
+                var existingProductCategories = _categoryService.GetQuestionCategoriesByCategoryId(model.CategoryId, showHidden: true);
+                foreach (var product in selectedQuestions)
+                {
+                    //whether product category with such parameters already exists
+                    if (_categoryService.FindQuestionCategory(existingProductCategories, product.Id, model.CategoryId) != null)
+                        continue;
+
+                    //insert the new product category mapping
+                    _categoryService.InsertQuestionCategory(new QuestionCategory
+                    {
+                        CategoryId = model.CategoryId,
+                        QuestionId = product.Id,
+                        DisplayOrder = 1
+                    });
+                }
+            }
+
+            ViewBag.RefreshPage = true;
+
+            return View(new AddQuestionToCategorySearchModel());
+        }
+
+        #endregion
     }
 }

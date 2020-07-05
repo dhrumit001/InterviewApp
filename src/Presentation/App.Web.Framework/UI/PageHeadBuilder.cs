@@ -13,7 +13,6 @@ using App.Core;
 using App.Core.Caching;
 using App.Core.Domain.Common;
 using App.Core.Infrastructure;
-using Nop.Web.Framework.UI;
 
 namespace App.Web.Framework.UI
 {

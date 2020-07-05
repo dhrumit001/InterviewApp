@@ -74,6 +74,15 @@ namespace App.Web.Areas.Admin.Infrastructure.Mapper
             .ForMember(entity => entity.Deleted, options => options.Ignore())
             .ForMember(entity => entity.UpdatedOnUtc, options => options.Ignore());
 
+            CreateMap<QuestionCategory, CategoryQuestionModel>()
+                .ForMember(model => model.QuestionName, options => options.Ignore());
+
+            CreateMap<CategoryQuestionModel, QuestionCategory>()
+                .ForMember(entity => entity.CategoryId, options => options.Ignore())
+                .ForMember(entity => entity.QuestionId, options => options.Ignore())
+                .ForMember(entity => entity.Category, options => options.Ignore())
+                .ForMember(entity => entity.Question, options => options.Ignore());
+
             //products
             CreateMap<Question, QuestionModel>()
             .ForMember(model => model.QuestionTypeName, options => options.Ignore());

@@ -16,6 +16,8 @@ namespace App.Web.Areas.Admin.Models.Categorize
         public CategoryModel()
         {
             AvailableCategories = new List<SelectListItem>();
+
+            CategoryQuestionSearchModel = new CategoryQuestionSearchModel();
         }
 
         #endregion
@@ -46,6 +48,8 @@ namespace App.Web.Areas.Admin.Models.Categorize
         public string Breadcrumb { get; set; }
 
         public IList<SelectListItem> AvailableCategories { get; set; }
+
+        public CategoryQuestionSearchModel CategoryQuestionSearchModel { get; set; }
 
         #endregion
     }

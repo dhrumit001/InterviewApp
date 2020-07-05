@@ -1,5 +1,5 @@
 ﻿@inject App.Core.IWorkContext workContext
-@using Nop.Web.Framework.UI;
+@using App.Web.Framework.UI;
 @{
 
     var kendoVersion = "2014.1.318";
@@ -54,10 +54,13 @@
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    @Html.NopHeadCustom()
-    @Html.NopCssFiles(ResourceLocation.Head, false)
-    @Html.NopScripts(ResourceLocation.Head, false)
+
+    @*Google Font*@
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+    @Html.AppHeadCustom()
+    @Html.AppCssFiles(ResourceLocation.Head, false)
+    @Html.AppScripts(ResourceLocation.Head, false)
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
     <div id="ajaxBusy">

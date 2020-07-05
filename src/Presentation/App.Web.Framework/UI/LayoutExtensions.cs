@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using App.Core.Infrastructure;
-using Nop.Web.Framework.UI;
 
 namespace App.Web.Framework.UI
 {
@@ -96,7 +95,7 @@ namespace App.Web.Framework.UI
         /// <param name="location">A location of the script element</param>
         /// <param name="bundleFiles">A value indicating whether to bundle script elements</param>
         /// <returns>Generated string</returns>
-        public static IHtmlContent NopScripts(this IHtmlHelper html, ResourceLocation location, bool? bundleFiles = null)
+        public static IHtmlContent AppScripts(this IHtmlHelper html, ResourceLocation location, bool? bundleFiles = null)
         {
             var pageHeadBuilder = EngineContext.Current.Resolve<IPageHeadBuilder>();
             return new HtmlString(pageHeadBuilder.GenerateScripts(location, bundleFiles));
@@ -131,7 +130,7 @@ namespace App.Web.Framework.UI
         /// <param name="html">HTML helper</param>
         /// <param name="location">A location of the script element</param>
         /// <returns>Generated string</returns>
-        public static IHtmlContent NopInlineScripts(this IHtmlHelper html, ResourceLocation location)
+        public static IHtmlContent AppInlineScripts(this IHtmlHelper html, ResourceLocation location)
         {
             var pageHeadBuilder = EngineContext.Current.Resolve<IPageHeadBuilder>();
             return new HtmlString(pageHeadBuilder.GenerateInlineScripts(location));
@@ -194,7 +193,7 @@ namespace App.Web.Framework.UI
         /// <param name="location">A location of the script element</param>
         /// <param name="bundleFiles">A value indicating whether to bundle script elements</param>
         /// <returns>Generated string</returns>
-        public static IHtmlContent NopCssFiles(this IHtmlHelper html, ResourceLocation location, bool? bundleFiles = null)
+        public static IHtmlContent AppCssFiles(this IHtmlHelper html, ResourceLocation location, bool? bundleFiles = null)
         {
             var pageHeadBuilder = EngineContext.Current.Resolve<IPageHeadBuilder>();
             return new HtmlString(pageHeadBuilder.GenerateCssFiles(location, bundleFiles));
@@ -236,7 +235,7 @@ namespace App.Web.Framework.UI
         /// <param name="html">HTML helper</param>
         /// <param name="part">Canonical URL part</param>
         /// <returns>Generated string</returns>
-        public static IHtmlContent NopCanonicalUrls(this IHtmlHelper html, string part = "")
+        public static IHtmlContent AppCanonicalUrls(this IHtmlHelper html, string part = "")
         {
             var pageHeadBuilder = EngineContext.Current.Resolve<IPageHeadBuilder>();
             html.AppendCanonicalUrlParts(part);
@@ -269,7 +268,7 @@ namespace App.Web.Framework.UI
         /// </summary>
         /// <param name="html">HTML helper</param>
         /// <returns>Generated string</returns>
-        public static IHtmlContent NopHeadCustom(this IHtmlHelper html)
+        public static IHtmlContent AppHeadCustom(this IHtmlHelper html)
         {
             var pageHeadBuilder = EngineContext.Current.Resolve<IPageHeadBuilder>();
             return new HtmlString(pageHeadBuilder.GenerateHeadCustom());
@@ -303,7 +302,7 @@ namespace App.Web.Framework.UI
         /// <param name="part">CSS class</param>
         /// <param name="includeClassElement">A value indicating whether to include "class" attributes</param>
         /// <returns>Generated string</returns>
-        public static IHtmlContent NopPageCssClasses(this IHtmlHelper html, string part = "", bool includeClassElement = true)
+        public static IHtmlContent AppPageCssClasses(this IHtmlHelper html, string part = "", bool includeClassElement = true)
         {
             var pageHeadBuilder = EngineContext.Current.Resolve<IPageHeadBuilder>();
             html.AppendPageCssClassParts(part);

@@ -1,5 +1,5 @@
 ﻿
-namespace Nop.Web.Framework.UI
+namespace App.Web.Framework.UI
 {
     /// <summary>
     /// Resource location

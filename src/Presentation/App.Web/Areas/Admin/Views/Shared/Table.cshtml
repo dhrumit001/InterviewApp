@@ -268,8 +268,7 @@ string GetUrl(DataUrl dataUrl)
             }
             var tokenInput = $('input[name=__RequestVerificationToken]').val();
             postData['__RequestVerificationToken'] = tokenInput;
-            addAntiForgeryToken(postData);
-
+            
             $.ajax({
                 url: "@Html.Raw(GetUrl((Model.ChildTable?.UrlUpdate != null) ? Model.ChildTable?.UrlUpdate : Model.UrlUpdate))",
                 type: "POST",

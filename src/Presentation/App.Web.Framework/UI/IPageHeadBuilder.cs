@@ -1,4 +1,4 @@
-﻿using Nop.Web.Framework.UI;
+﻿using App.Web.Framework.UI;
 
 namespace App.Web.Framework.UI
 {

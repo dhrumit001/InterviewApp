@@ -255,7 +255,7 @@ namespace App.Services.Categorize
         /// </param>
         /// <returns>Products</returns>
         public virtual IPagedList<Question> GetAllQuestions(
-            string questionName,
+            string questionName = null,
             int pageIndex = 0,
             int pageSize = int.MaxValue,
             IList<int> categoryIds = null,

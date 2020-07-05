@@ -64,6 +64,15 @@ namespace App.Web.Framework.Models
         }
 
         /// <summary>
+        /// Set popup grid page parameters
+        /// </summary>
+        public void SetPopupGridPageSize()
+        {
+            var adminAreaSettings = EngineContext.Current.Resolve<AdminAreaSettings>();
+            SetGridPageSize(adminAreaSettings.PopupGridPageSize, adminAreaSettings.GridPageSizes);
+        }
+
+        /// <summary>
         /// Set grid page parameters
         /// </summary>
         /// <param name="pageSize">Page size; pass null to use default value</param>

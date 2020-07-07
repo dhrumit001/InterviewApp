@@ -114,6 +114,7 @@ namespace App.Web.Areas.Admin.Factories
                 {
                     //fill in model values from the entity
                     var questionModel = product.ToModel<QuestionModel>();
+                    questionModel.QuestionTypeName = product.QuestionType.ToString();
                     return questionModel;
                 });
             });
@@ -136,6 +137,7 @@ namespace App.Web.Areas.Admin.Factories
                 if (model == null)
                 {
                     model = question.ToModel<QuestionModel>();
+                    model.AnswerDescription = question.QuestionOptions.First()?.Description;
                 }
 
                 if (!excludeProperties)

@@ -24,6 +24,35 @@
                 <i class="fa fa-plus-square"></i>
                 Add new
             </a>
+            <div class="btn-group">
+                <button type="button" class="btn btn-success">
+                    <i class="fa fa-download"></i>
+                    Export
+                </button>
+                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <span class="caret"></span>
+                    <span class="sr-only">&nbsp;</span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li>
+                        <button type="submit" name="exportexcel-all">
+                            <i class="fa fa-file-excel-o"></i>
+                            Export to Excel (all found)
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" id="exportexcel-selected">
+                            <i class="fa fa-file-excel-o"></i>
+                            Export to Excel (selected)
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <button type="button" name="importexcel" class="btn bg-olive" data-toggle="modal" data-target="#importexcel-window">
+                <i class="fa fa-upload"></i>
+                Import
+            </button>
 
             <button type="button" id="delete-selected" class="btn bg-red">
                 <i class="fa fa-trash-o"></i>
@@ -161,11 +190,11 @@
                         <script>
                              $(document).ready(function () {
                                  $('#delete-selected-action-confirmation-submit-button').bind('click', function () {
-                                     
+
                                     var postData = {
                                         selectedIds: selectedIds
                                     };
-                                    
+
                                     $.ajax({
                                         cache: false,
                                         type: "POST",

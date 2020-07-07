@@ -173,13 +173,13 @@ namespace App.Web.Areas.Admin.Controllers
             if (!_permissionService.Authorize(StandardPermission.ManageQuestions))
                 return AccessDeniedView();
 
-            //try to get a product with the specified id
-            var product = _questionService.GetQuestionById(id);
-            if (product == null || product.Deleted)
+            //try to get a question with the specified id
+            var question = _questionService.GetQuestionById(id);
+            if (question == null || question.Deleted)
                 return RedirectToAction("List");
 
             //prepare model
-            var model = _questionModelFactory.PrepareQuestionModel(null, product);
+            var model = _questionModelFactory.PrepareQuestionModel(null, question);
 
             return View(model);
         }

@@ -10,9 +10,9 @@
     Html.AddScriptParts("~/lib/tinymce/tinymce.min.js", excludeFromBundle: true);
 
     // tinyMCE language
-    
+
     var allowJbimages = false;
-    
+
     var random = CommonHelper.GenerateRandomInteger();
 
     //extend editor with additional settings
@@ -28,8 +28,8 @@
 
     var extended_valid_elements = new List<string>();
     var valid_children = new List<string>();
-    
-    if(allowJavaScript)
+
+    if (allowJavaScript)
     {
         extended_valid_elements.Add("script[charset|defer|language|src|type]");
         valid_children.Add("+body[script]");
@@ -91,12 +91,25 @@
             plugins: [
                 "advlist autolink autoresize directionality lists link image charmap preview anchor",
                 "searchreplace visualblocks code fullscreen textcolor",
-                "insertdatetime media table contextmenu paste@(allowJbimages ? " jbimages" : null)@(enableFullPage ? " fullpage" : null)"
+                "insertdatetime media table contextmenu paste@(allowJbimages ? " jbimages" : null)@(enableFullPage ? " fullpage" : null)",
+                "codesample"
             ],
-            toolbar: "ltr rtl | insertfile undo redo | styleselect | fontselect | fontsizeselect | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image@(allowJbimages ? " jbimages" : null)",
+            codesample_languages: [
+                { text: 'HTML/XML', value: 'markup' },
+                { text: 'JavaScript', value: 'javascript' },
+                { text: 'CSS', value: 'css' },
+                { text: 'PHP', value: 'php' },
+                { text: 'Ruby', value: 'ruby' },
+                { text: 'Python', value: 'python' },
+                { text: 'Java', value: 'java' },
+                { text: 'C', value: 'c' },
+                { text: 'C#', value: 'csharp' },
+                { text: 'C++', value: 'cpp' }
+            ],
+            toolbar: "ltr rtl | insertfile undo redo | styleselect | fontselect | fontsizeselect | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image@(allowJbimages ? " jbimages" : null) | codesample",
             //"relative_urls" required by jbimages plugin to be set to "false"
             relative_urls: false,
-            
+
             //we should set "convert_urls" set to "false" (because of "relative_urls" requirement)
             //otherwise, it'll break existing links when editing message template
             convert_urls: false,

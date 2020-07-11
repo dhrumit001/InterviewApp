@@ -13,6 +13,8 @@
 
     var allowJbimages = false;
 
+    var allowRoxyFileman = permissionService.Authorize(StandardPermission.HtmlEditorManagePictures);
+
     var random = CommonHelper.GenerateRandomInteger();
 
     //extend editor with additional settings
@@ -48,7 +50,8 @@
 <script>
     $(document).ready(function() {
         @* wooncherk contribution *@
-        function RoxyFileBrowser@(random)(field_name, url, type, win) {
+        function RoxyFileBrowser@(random)(callback, value, meta) {
+
             //we manually generate the configuration file to ensure that it works fine in virtual directory
             $.ajax({
                 cache: false,
@@ -57,21 +60,25 @@
                 success: function (data, textStatus, jqXHR) {
                     var roxyFileman = '@Url.Content("~/lib/Roxy_Fileman/index.html")';
                     if (roxyFileman.indexOf("?") < 0) {
-                        roxyFileman += "?type=" + type;
+                        roxyFileman += "?type=" + meta.filetype;
                     } else {
-                        roxyFileman += "&type=" + type;
+                        roxyFileman += "&type=" + meta.filetype;
                     }
-                    roxyFileman += '&input=' + field_name + '&value=' + document.getElementById(field_name).value;
-                    tinyMCE.activeEditor.windowManager.open({
-                        file: roxyFileman,
+                    roxyFileman += '&value=' + value;
+                    const instanceApi = tinyMCE.activeEditor.windowManager.openUrl({
+                        url: roxyFileman,
                         title: 'Roxy Fileman',
                         width: 850,
                         height: 650,
                         resizable: "yes",
                         plugins: "media",
                         inline: "yes",
-                        close_previous: "no"
-                    }, { window: win, input: field_name });
+                        close_previous: "no",
+                        onMessage: function (dialogApi, details) {
+                            callback(details.content);
+                            instanceApi.close();
+                        }
+                    });
                     return false;
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -109,7 +116,13 @@
             toolbar: "ltr rtl | insertfile undo redo | styleselect | fontselect | fontsizeselect | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image@(allowJbimages ? " jbimages" : null) | codesample",
             //"relative_urls" required by jbimages plugin to be set to "false"
             relative_urls: false,
-
+            @if (allowRoxyFileman)
+            {
+                <text>
+                    //picture manager
+                    file_picker_callback: RoxyFileBrowser@(random),
+                </text>
+            }
             //we should set "convert_urls" set to "false" (because of "relative_urls" requirement)
             //otherwise, it'll break existing links when editing message template
             convert_urls: false,
@@ -152,4 +165,4 @@
 </script>
 
 <textarea asp-for="@Model">@ViewData.TemplateInfo.FormattedModelValue</textarea>
-<nop-alert asp-alert-id="createConfigurationFailed" />
+<app-alert asp-alert-id="createConfigurationFailed" />

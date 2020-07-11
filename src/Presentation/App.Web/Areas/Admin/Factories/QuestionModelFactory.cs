@@ -137,7 +137,7 @@ namespace App.Web.Areas.Admin.Factories
                 if (model == null)
                 {
                     model = question.ToModel<QuestionModel>();
-                    model.AnswerDescription = question.QuestionOptions.First()?.Description;
+                    model.AnswerDescription = question.QuestionAnswer?.Description;
                 }
 
                 if (!excludeProperties)

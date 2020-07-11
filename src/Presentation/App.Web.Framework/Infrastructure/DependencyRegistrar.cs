@@ -11,6 +11,7 @@ using App.Services.Configuration;
 using App.Services.Events;
 using App.Services.Logging;
 using App.Services.Media;
+using App.Services.Media.RoxyFileman;
 using App.Services.Messages;
 using App.Services.Security;
 using App.Services.Users;
@@ -86,6 +87,17 @@ namespace App.Web.Framework.Infrastructure
 
             //register all settings
             builder.RegisterSource(new SettingsSource());
+
+            //roxy file manager service
+            builder.Register(context =>
+            {
+                var pictureService = context.Resolve<IPictureService>();
+
+                return EngineContext.Current.ResolveUnregistered(pictureService.StoreInDb
+                    ? typeof(DatabaseRoxyFilemanService)
+                    : typeof(FileRoxyFilemanService));
+
+            }).As<IRoxyFilemanService>().InstancePerLifetimeScope();
 
             //event consumers
             var consumers = typeFinder.FindClassesOfType(typeof(IConsumer<>)).ToList();

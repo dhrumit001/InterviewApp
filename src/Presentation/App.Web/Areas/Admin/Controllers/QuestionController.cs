@@ -204,13 +204,23 @@ namespace App.Web.Areas.Admin.Controllers
                 question.UpdatedOnUtc = DateTime.UtcNow;
                 _questionService.UpdateQuestion(question);
 
-                //add question answer
-                _questionService.UpdateQuestionOption(new QuestionOption
+                if (question.QuestionAnswer != null)
                 {
-                    QuestionId = question.Id,
-                    Description = model.AnswerDescription,
-                    IsAnswer = true
-                });
+                    var questionAnswer = question.QuestionAnswer;
+                    questionAnswer.Description = model.AnswerDescription;
+
+                    //update question answer
+                    _questionService.UpdateQuestionOption(questionAnswer);
+                }
+                else
+                {
+                    _questionService.InsertQuestionOption(new QuestionOption
+                    {
+                        QuestionId = question.Id,
+                        Description = model.AnswerDescription,
+                        IsAnswer = true
+                    });
+                }
 
                 //categories
                 SaveCategoryMappings(question, model);

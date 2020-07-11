@@ -329,6 +329,16 @@ namespace App.Services.Categorize
             _eventPublisher.EntityUpdated(questionOption);
         }
 
+        /// <summary>
+        /// Gets all question options
+        /// </summary>
+        /// <param name="questionOption">Question option</param>
+        public virtual IList<QuestionOption> GetAllQuestionOptions(int questionId)
+        {
+            return _questionOptionRepository.Table.
+                Where(qo => qo.QuestionId == questionId).ToList();
+        }
+
         #endregion
 
         #endregion

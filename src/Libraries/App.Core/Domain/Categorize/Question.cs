@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace App.Core.Domain.Categorize
 {
@@ -49,6 +50,14 @@ namespace App.Core.Domain.Categorize
         {
             get => (QuestionType)QuestionTypeId;
             set => QuestionTypeId = (int)value;
+        }
+
+        /// <summary>
+        /// Gets the QuestionAnswer
+        /// </summary>
+        public virtual QuestionOption QuestionAnswer
+        {
+            get => QuestionOptions.FirstOrDefault(qo => qo.IsAnswer);
         }
 
         /// <summary>

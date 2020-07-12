@@ -18,7 +18,7 @@ namespace App.Web.Infrastructure
         public void RegisterRoutes(IRouteBuilder routeBuilder)
         {
             //reorder routes so the most used ones are on top. It can improve performance
-
+            
             //areas
             routeBuilder.MapRoute(name: "areaRoute", template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 

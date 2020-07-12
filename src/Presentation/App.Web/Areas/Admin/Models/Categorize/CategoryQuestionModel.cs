@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace App.Web.Areas.Admin.Models.Categorize
 {
@@ -18,10 +16,10 @@ namespace App.Web.Areas.Admin.Models.Categorize
 
         public int QuestionId { get; set; }
 
-        [DisplayName("Admin.Catalog.Categories.Products.Fields.Product")]
+        [DisplayName("Question")]
         public string QuestionName { get; set; }
 
-        [DisplayName("Admin.Catalog.Categories.Products.Fields.DisplayOrder")]
+        [DisplayName("DisplayOrder")]
         public int DisplayOrder { get; set; }
 
         #endregion

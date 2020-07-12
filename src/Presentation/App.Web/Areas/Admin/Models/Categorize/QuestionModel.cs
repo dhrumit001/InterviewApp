@@ -1,13 +1,12 @@
 ﻿using App.Web.Framework.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace App.Web.Areas.Admin.Models.Categorize
 {
     /// <summary>
-    /// Represents a product model
+    /// Represents a question model
     /// </summary>
     public partial class QuestionModel : BaseEntityModel
     {

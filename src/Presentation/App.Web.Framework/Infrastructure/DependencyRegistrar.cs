@@ -15,6 +15,8 @@ using App.Services.Media.RoxyFileman;
 using App.Services.Messages;
 using App.Services.Security;
 using App.Services.Users;
+using App.Web.Framework.Mvc.Results;
+using App.Web.Framework.Mvc.Results.Wrapping;
 using App.Web.Framework.Mvc.Routing;
 using App.Web.Framework.UI;
 using Autofac;
@@ -84,6 +86,8 @@ namespace App.Web.Framework.Infrastructure
             builder.RegisterType<EventPublisher>().As<IEventPublisher>().SingleInstance();
 
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
+            builder.RegisterType<AppActionResultWrapperFactory>().As<IAppActionResultWrapperFactory>().InstancePerLifetimeScope();
+            builder.RegisterType<AppResultFilter>().As<AppResultFilter>().InstancePerLifetimeScope();
 
             //register all settings
             builder.RegisterSource(new SettingsSource());

@@ -156,7 +156,7 @@ namespace App.Web.Areas.Admin.Factories
             if (category == null)
                 throw new ArgumentNullException(nameof(category));
 
-            //get product categories
+            //get question categories
             var questionCategories = _categoryService.GetQuestionCategoriesByCategoryId(category.Id,
                 showHidden: true,
                 pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);

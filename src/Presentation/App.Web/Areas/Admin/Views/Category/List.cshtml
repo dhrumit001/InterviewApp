@@ -3,7 +3,7 @@
 @{
     //page title
     ViewBag.Title = "Categories";
-    
+
     //active menu item (system name)
     Html.SetActiveMenuItemSystemName("Categories");
 }
@@ -62,17 +62,17 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     @await Html.PartialAsync("Table", new DataTablesModel
-                    {
-                        Name = "categories-grid",
-                        UrlRead = new DataUrl("List", "Category", null),
-                        SearchButtonId = "search-categories",
-                        Length = Model.PageSize,
-                        LengthMenu = Model.AvailablePageSizes,
-                        Filters = new List<FilterParameter>
+               {
+                   Name = "categories-grid",
+                   UrlRead = new DataUrl("List", "Category"),
+                   SearchButtonId = "search-categories",
+                   Length = Model.PageSize,
+                   LengthMenu = Model.AvailablePageSizes,
+                   Filters = new List<FilterParameter>
                         {
                             new FilterParameter(nameof(Model.SearchCategoryName)),
                         },
-                        ColumnCollection = new List<ColumnProperty>
+                   ColumnCollection = new List<ColumnProperty>
                         {
                             new ColumnProperty(nameof(CategoryModel.Breadcrumb))
                             {
@@ -99,7 +99,7 @@
                                 Render = new RenderButtonEdit(new DataUrl("Edit"))
                             }
                         }
-                    })
+               })
                 </div>
             </div>
         </div>

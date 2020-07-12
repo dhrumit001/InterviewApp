@@ -4,6 +4,7 @@ using App.Core.Http;
 using App.Core.Infrastructure;
 using App.Data;
 using App.Services.Authentication;
+using App.Web.Framework.Mvc.Results;
 using EasyCaching.Core;
 using EasyCaching.InMemory;
 using FluentValidation.AspNetCore;
@@ -175,6 +176,13 @@ namespace App.Web.Framework.Infrastructure.Extensions
 
             //register controllers as services, it'll allow to override them
             mvcBuilder.AddControllersAsServices();
+
+            //configure mvc options
+            services.Configure<MvcOptions>(mvcOptions =>
+            {
+                mvcOptions.Filters.AddService(typeof(AppResultFilter));
+            });
+            
 
             return mvcBuilder;
         }

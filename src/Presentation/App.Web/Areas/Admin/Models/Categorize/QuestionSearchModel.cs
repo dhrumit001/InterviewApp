@@ -23,7 +23,7 @@ namespace App.Web.Areas.Admin.Models.Categorize
 
         #region Properties
 
-        [DisplayName("Product name")]
+        [DisplayName("Question name")]
         public string SearchQuestionName { get; set; }
 
         [DisplayName("Category")]

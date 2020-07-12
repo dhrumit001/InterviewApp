@@ -30,7 +30,7 @@ namespace App.Web.Areas.Admin.Models.Categorize
         [DisplayName("Description")]
         public string Description { get; set; }
 
-        [DisplayName("Parent category")]
+        [DisplayName("Question category")]
         public int ParentCategoryId { get; set; }
 
         [UIHint("Picture")]

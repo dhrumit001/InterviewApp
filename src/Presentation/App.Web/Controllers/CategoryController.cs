@@ -34,6 +34,7 @@ namespace App.Web.Controllers
 
         #region List
 
+        [HttpGet]
         public IList<CategoryModel> List()
         {
             var categories = _categoryService.GetAllCategories();

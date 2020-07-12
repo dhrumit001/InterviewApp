@@ -157,9 +157,15 @@ namespace App.Web.Framework.Infrastructure.Extensions
             //sets the default value of settings on MvcOptions to match the behavior of asp.net core mvc 2.2
             mvcBuilder.SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            //MVC now serializes JSON with camel case names by default, use this code to avoid it
-            mvcBuilder.AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
-
+            //Configure JSON serializer
+            mvcBuilder.AddJsonOptions(jsonOptions =>
+            {
+                jsonOptions.SerializerSettings.ContractResolver = new DefaultContractResolver()
+                {
+                    NamingStrategy = new CamelCaseNamingStrategy()
+                };
+            });
+            
             //add fluent validation
             mvcBuilder.AddFluentValidation(configuration =>
             {

@@ -22,6 +22,7 @@
 
 
   <ItemGroup>
+    <Folder Include="Views\Shared\" />
     <Folder Include="wwwroot\lib\kendo\2014.1.318\" />
   </ItemGroup>
 

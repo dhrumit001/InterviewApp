@@ -86,9 +86,9 @@
             template: "@(clientId)-qq-template",
             multiple: false
         }).on("complete", function(event, id, name, responseJSON, xhr) {
-            if (responseJSON.success) {
-                $("#@(clientId + "image")").html("<img src='" + responseJSON.imageUrl + "'/>");
-                $("#@(clientId + "value") input").val(responseJSON.pictureId);
+            if (responseJSON.Result.success) {
+                $("#@(clientId + "image")").html("<img src='" + responseJSON.Result.imageUrl + "'/>");
+                $("#@(clientId + "value") input").val(responseJSON.Result.pictureId);
                 $("#@(clientId + "remove")").show();
             }
         });

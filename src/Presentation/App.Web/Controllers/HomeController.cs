@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using App.Services.Logging;
-using App.Web.Areas.Admin.Controllers;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace App.Web.Controllers
 {

@@ -2,53 +2,53 @@
 
 @if (Model.Id > 0)
 {
-<div class="panel-body">
-    @await Html.PartialAsync("Table", new DataTablesModel
-{
-    Name = "questions-grid",
-    UrlRead = new DataUrl("QuestionList", "Category", new RouteValueDictionary { [nameof(Model.CategoryQuestionSearchModel.CategoryId)] = Model.CategoryQuestionSearchModel.CategoryId }),
-    UrlDelete = new DataUrl("QuestionDelete", "Category", null),
-    UrlUpdate = new DataUrl("QuestionUpdate", "Category", null),
-    Length = Model.CategoryQuestionSearchModel.PageSize,
-    LengthMenu = Model.CategoryQuestionSearchModel.AvailablePageSizes,
-    ColumnCollection = new List<ColumnProperty>
-        {
-            new ColumnProperty(nameof(CategoryQuestionModel.QuestionName))
+    <div class="panel-body">
+        @await Html.PartialAsync("Table", new DataTablesModel
+    {
+        Name = "questions-grid",
+        UrlRead = new DataUrl("QuestionList", "Category", new RouteValueDictionary ( new { CategoryId = Model.CategoryQuestionSearchModel.CategoryId })),
+        UrlDelete = new DataUrl("QuestionDelete", "Category", null),
+        UrlUpdate = new DataUrl("QuestionUpdate", "Category", null),
+        Length = Model.CategoryQuestionSearchModel.PageSize,
+        LengthMenu = Model.CategoryQuestionSearchModel.AvailablePageSizes,
+        ColumnCollection = new List<ColumnProperty>
             {
-                Title = "Question"
-            },
-            new ColumnProperty(nameof(CategoryQuestionModel.DisplayOrder))
-            {
-                Title = "Display order",
-                Width = "150",
-                ClassName = NopColumnClassDefaults.CenterAll,
-                Editable = true,
-                EditType = EditType.Number
-            },
-            new ColumnProperty(nameof(CategoryQuestionModel.QuestionId))
-            {
-                Title = "View",
-                Width = "150",
-                ClassName = NopColumnClassDefaults.Button,
-                Render = new RenderButtonView(new DataUrl("~/Admin/Question/Edit/", nameof(CategoryQuestionModel.QuestionId)))
-            },
-            new ColumnProperty(nameof(CategoryQuestionModel.Id))
-            {
-                Title = "Edit",
-                Width = "200",
-                ClassName =  NopColumnClassDefaults.Button,
-                Render = new RenderButtonsInlineEdit()
-            },
-            new ColumnProperty(nameof(CategoryQuestionModel.Id))
-            {
-                Title = "Delete",
-                Width = "100",
-                Render = new RenderButtonRemove("Delete"),
-                ClassName = NopColumnClassDefaults.Button
+                new ColumnProperty(nameof(CategoryQuestionModel.QuestionName))
+                {
+                    Title = "Question"
+                },
+                new ColumnProperty(nameof(CategoryQuestionModel.DisplayOrder))
+                {
+                    Title = "Display order",
+                    Width = "150",
+                    ClassName = NopColumnClassDefaults.CenterAll,
+                    Editable = true,
+                    EditType = EditType.Number
+                },
+                new ColumnProperty(nameof(CategoryQuestionModel.QuestionId))
+                {
+                    Title = "View",
+                    Width = "150",
+                    ClassName = NopColumnClassDefaults.Button,
+                    Render = new RenderButtonView(new DataUrl("~/Admin/Question/Edit/", nameof(CategoryQuestionModel.QuestionId)))
+                },
+                new ColumnProperty(nameof(CategoryQuestionModel.Id))
+                {
+                    Title = "Edit",
+                    Width = "200",
+                    ClassName =  NopColumnClassDefaults.Button,
+                    Render = new RenderButtonsInlineEdit()
+                },
+                new ColumnProperty(nameof(CategoryQuestionModel.Id))
+                {
+                    Title = "Delete",
+                    Width = "100",
+                    Render = new RenderButtonRemove("Delete"),
+                    ClassName = NopColumnClassDefaults.Button
+                }
             }
-        }
-})
-</div>
+    })
+    </div>
     <div class="panel-footer">
         <button type="submit" id="btnAddNewQuestion"
                 onclick="javascript:OpenWindow('@(Url.Action("QuestionAddPopup", "Category", new { categoryId = Model.Id, btnId = "btnRefreshQuestions", formId = "category-form" }))', 800, 800, true); return false;"
@@ -66,8 +66,8 @@
                     return false;
                 });
             });
-    </script>
-</div>
+        </script>
+    </div>
 }
 else
 {

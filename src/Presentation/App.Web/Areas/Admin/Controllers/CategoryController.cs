@@ -109,9 +109,6 @@ namespace App.Web.Areas.Admin.Controllers
                 category.UpdatedOnUtc = DateTime.UtcNow;
                 _categoryService.InsertCategory(category);
 
-
-                _categoryService.UpdateCategory(category);
-
                 _notificationService.SuccessNotification("The new category has been added successfully.");
 
                 if (!continueEditing)

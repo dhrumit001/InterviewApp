@@ -57,32 +57,29 @@ namespace App.Web.Areas.Admin.Controllers
                             //sign in new customer
                             _authenticationService.SignIn(customer, model.RememberMe);
 
-                            //raise event       
-                            //_eventPublisher.Publish(new CustomerLoggedinEvent(customer));
-
                             if (string.IsNullOrEmpty(returnUrl) || !Url.IsLocalUrl(returnUrl))
                                 return RedirectToAction("Index", "Home");
 
                             return Redirect(returnUrl);
                         }
                     case UserLoginResults.UserNotExist:
-                        ModelState.AddModelError("", "CustomerNotExist");
+                        ModelState.AddModelError("", "No user account found");
                         break;
                     case UserLoginResults.Deleted:
-                        ModelState.AddModelError("", "Deleted");
+                        ModelState.AddModelError("", "User is deleted");
                         break;
                     case UserLoginResults.NotActive:
-                        ModelState.AddModelError("", "NotActive");
+                        ModelState.AddModelError("", "Account is not active");
                         break;
                     case UserLoginResults.NotRegistered:
-                        ModelState.AddModelError("", "NotRegistered");
+                        ModelState.AddModelError("", "Account is not registered");
                         break;
                     case UserLoginResults.LockedOut:
-                        ModelState.AddModelError("", "LockedOut");
+                        ModelState.AddModelError("", "User is locked out");
                         break;
                     case UserLoginResults.WrongPassword:
                     default:
-                        ModelState.AddModelError("", "WrongCredentials");
+                        ModelState.AddModelError("", "The credentials provided are incorrect");
                         break;
                 }
             }

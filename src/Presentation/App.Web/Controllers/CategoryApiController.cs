@@ -1,7 +1,5 @@
-﻿using App.Core.Domain.Categorize;
-using App.Services.Categorize;
+﻿using App.Services.Categorize;
 using App.Web.Areas.Admin.Infrastructure.Mapper.Extensions;
-using App.Web.Framework.Controllers;
 using App.Web.Models.Categorize;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,8 +9,8 @@ using System.Linq;
 namespace App.Web.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class CategoryController : BaseController
+    [Route("[controller]")]
+    public class CategoryApiController : ControllerBase
     {
         #region Fields
 
@@ -23,7 +21,7 @@ namespace App.Web.Controllers
 
         #region Ctor
 
-        public CategoryController(ICategoryService categoryService,
+        public CategoryApiController(ICategoryService categoryService,
             IQuestionService questionService)
         {
             _categoryService = categoryService;
@@ -53,7 +51,8 @@ namespace App.Web.Controllers
 
         #region Questions
 
-        [HttpGet("{id}/questions")]
+        [HttpGet]
+        [Route("{id}/Questions")]
         public virtual IList<CategoryQuestionModel> QuestionList(int id)
         {
             //try to get a category with the specified id

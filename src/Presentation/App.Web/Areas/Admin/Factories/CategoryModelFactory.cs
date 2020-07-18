@@ -1,5 +1,6 @@
 ﻿using App.Core.Domain.Categorize;
 using App.Services.Categorize;
+using App.Services.Media;
 using App.Web.Areas.Admin.Infrastructure.Mapper.Extensions;
 using App.Web.Areas.Admin.Models.Categorize;
 using App.Web.Framework.Models.Extensions;
@@ -20,6 +21,7 @@ namespace App.Web.Areas.Admin.Factories
         private readonly IBaseAdminModelFactory _baseAdminModelFactory;
         private readonly ICategoryService _categoryService;
         private readonly IQuestionService _questionService;
+        private readonly IPictureService _pictureService;
 
         #endregion
 
@@ -27,11 +29,13 @@ namespace App.Web.Areas.Admin.Factories
 
         public CategoryModelFactory(IBaseAdminModelFactory baseAdminModelFactory,
             ICategoryService categoryService,
-            IQuestionService questionService)
+            IQuestionService questionService,
+            IPictureService pictureService)
         {
             _baseAdminModelFactory = baseAdminModelFactory;
             _categoryService = categoryService;
             _questionService = questionService;
+            _pictureService = pictureService;
         }
 
         #endregion
@@ -104,8 +108,11 @@ namespace App.Web.Areas.Admin.Factories
                     var categoryModel = category.ToModel<CategoryModel>();
 
                     //fill in additional values (not existing in the entity)
+                    var defaultCategoryPicture = _pictureService.GetPictureById(category.PictureId);
+                    categoryModel.PictureThumbnailUrl = _pictureService.GetPictureUrl(defaultCategoryPicture, 75);
                     categoryModel.Breadcrumb = _categoryService.GetFormattedBreadCrumb(category);
-
+                    categoryModel.TotalQuestions = _categoryService.GetCategoryQuestionsCount(category, showHidden: true);
+                    categoryModel.PublishedQuestions = _categoryService.GetCategoryQuestionsCount(category, showHidden: false);
                     return categoryModel;
                 });
             });

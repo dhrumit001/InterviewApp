@@ -74,9 +74,22 @@
                         },
                    ColumnCollection = new List<ColumnProperty>
                         {
+                            new ColumnProperty(nameof(CategoryModel.PictureThumbnailUrl))
+                                {
+                                    Title = "Picture",
+                                    Width = "100",
+                                    Render = new RenderPicture()
+                                },
                             new ColumnProperty(nameof(CategoryModel.Breadcrumb))
                             {
                                 Title = "Name"
+                            },
+                            new ColumnProperty(nameof(CategoryModel.TotalQuestions))
+                            {
+                                Title = "Questions (Published)",
+                                Width = "100",
+                                ClassName =  NopColumnClassDefaults.CenterAll,
+                                Render = new RenderCustom("renderColumnTotalQuestions")
                             },
                             new ColumnProperty(nameof(CategoryModel.Published))
                             {
@@ -100,6 +113,12 @@
                             }
                         }
                })
+
+                    <script>
+                        function renderColumnTotalQuestions(data, type, row, meta) {
+                            return row.TotalQuestions + ' (' + row.PublishedQuestions + ')';
+                        }
+                    </script>
                 </div>
             </div>
         </div>

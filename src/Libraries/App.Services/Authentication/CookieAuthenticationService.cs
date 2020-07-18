@@ -2,11 +2,9 @@
 using App.Services.Users;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Authentication;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
-using System.Text;
 
 namespace App.Services.Authentication
 {
@@ -17,7 +15,7 @@ namespace App.Services.Authentication
     {
         #region Fields
 
-        private readonly IUserService _customerService;
+        private readonly IUserService _userService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private User _cachedUser;
 
@@ -28,7 +26,7 @@ namespace App.Services.Authentication
         public CookieAuthenticationService(IUserService userService,
             IHttpContextAccessor httpContextAccessor)
         {
-            _customerService = userService;
+            _userService = userService;
             _httpContextAccessor = httpContextAccessor;
         }
 
@@ -106,7 +104,7 @@ namespace App.Services.Authentication
             var usernameClaim = authenticateResult.Principal.FindFirst(claim => claim.Type == ClaimTypes.Name
                 && claim.Issuer.Equals(AppAuthenticationDefaults.ClaimsIssuer, StringComparison.InvariantCultureIgnoreCase));
             if (usernameClaim != null)
-                user = _customerService.GetUserByUsername(usernameClaim.Value);
+                user = _userService.GetUserByUsername(usernameClaim.Value);
 
             //whether the found user is available
             if (user == null || !user.Active || user.RequireReLogin || user.Deleted)

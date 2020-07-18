@@ -538,6 +538,24 @@ namespace App.Services.Categorize
                 .ToDictionary(items => items.Key, items => items.Select(a => a.CategoryId).ToArray());
         }
 
+        /// <summary>
+        /// Get the count of news comments
+        /// </summary>
+        /// <param name="category">Category</param>
+        /// <param name="showHidden">A value indicating whether to count hidden records</param>
+        /// <returns>Number of category questions</returns>
+        public virtual int GetCategoryQuestionsCount(Category category, bool showHidden = false)
+        {
+            var query = from p in _questionCategoryRepository.Table
+                        where p.CategoryId == category.Id
+                        select p;
+
+            if (!showHidden)
+                query = query.Where(p => p.Question.Published);
+
+            return query.Count();
+        }
+
         #endregion
     }
 }

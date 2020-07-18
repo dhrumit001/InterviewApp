@@ -173,13 +173,22 @@ namespace App.Services.Categorize
         /// <param name="productCategoryId">Product category mapping identifier</param>
         /// <returns>Product category mapping</returns>
         QuestionCategory GetQuestionCategoryById(int questionCategoryId);
-        
+
         /// <summary>
         /// Get category IDs for products
         /// </summary>
         /// <param name="productIds">Products IDs</param>
         /// <returns>Category IDs for products</returns>
         IDictionary<int, int[]> GetQuestionCategoryIds(int[] productIds);
-        
+
+        /// <summary>
+        /// Get the count of news comments
+        /// </summary>
+        /// <param name="category">Category</param>
+        /// <param name="showHidden">A value indicating whether to count hidden records</param>
+        /// <returns>Number of category questions</returns>
+        int GetCategoryQuestionsCount(Category category, bool showHidden = false);
+
+
     }
 }

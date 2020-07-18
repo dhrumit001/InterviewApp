@@ -24,6 +24,9 @@ namespace App.Web.Areas.Admin.Models.Categorize
 
         #region Properties
 
+        [DisplayName("Picture")]
+        public string PictureThumbnailUrl { get; set; }
+
         [DisplayName("Category name")]
         public string Name { get; set; }
 
@@ -37,15 +40,19 @@ namespace App.Web.Areas.Admin.Models.Categorize
         [DisplayName("Picture")]
         public int PictureId { get; set; }
 
+        [DisplayName("Display order")]
+        public int DisplayOrder { get; set; }
+
         [DisplayName("Published")]
         public bool Published { get; set; }
 
         [DisplayName("Deleted")]
         public bool Deleted { get; set; }
 
-        [DisplayName("Display order")]
-        public int DisplayOrder { get; set; }
         public string Breadcrumb { get; set; }
+
+        public int TotalQuestions { get; set; }
+        public int PublishedQuestions { get; set; }
 
         public IList<SelectListItem> AvailableCategories { get; set; }
 
